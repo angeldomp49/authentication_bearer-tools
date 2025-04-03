@@ -4,7 +4,7 @@ import java.security.SecureRandom;
 
 public class SaltGenerator {
 
-    private final int SALT_LENGTH_BYTES = 16;
+    private static final int SALT_LENGTH_BYTES = 16;
 
     public byte[] generate() {
         var randomGenerator = new SecureRandom();

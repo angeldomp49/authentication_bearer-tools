@@ -11,8 +11,8 @@ public class PasswordHasherNative implements PasswordHasher {
 
     private final ArgonSettings crypographyInformation;
     private final SaltGenerator saltGenerator = new SaltGenerator();
-    private final int HASH_LENGTH_BYTES = 64;
-    private final int SALT_LENGTH_BYTES = 16;
+    private static final int HASH_LENGTH_BYTES = 64;
+    private static final int SALT_LENGTH_BYTES = 16;
 
     public PasswordHasherNative(ArgonSettings crypographyInformation) {
         this.crypographyInformation = crypographyInformation;

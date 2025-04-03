@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 public class JWTTokenHandler {
 
-    private static final Logger LOG = Logger.getLogger(JWTTokenHandler.class.getName());
     private final SignaturePrinter signaturePrinter;
 
     public JWTTokenHandler(SignaturePrinter signaturePrinter) {
