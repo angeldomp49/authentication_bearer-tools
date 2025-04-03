@@ -6,7 +6,8 @@ import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JWTTokenHandlerTest {
 
@@ -24,11 +25,11 @@ class JWTTokenHandlerTest {
                 secureRandom.nextInt(),
                 List.of("read", "write")
         );
-        
+
         var token = tokenHandler.createTokenForSession(session);
-        
+
         assertNotNull(token);
         assertTrue(tokenHandler.isValidSignature(token));
-        
+
     }
 }

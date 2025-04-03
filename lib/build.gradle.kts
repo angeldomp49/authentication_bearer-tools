@@ -19,8 +19,9 @@ repositories {
     mavenCentral()
 
     maven {
-        url = uri("https://makech-technology-879381274336.d.codeartifact.us-east-2.amazonaws.com/maven/makech-technology-maven-repository/")
-        credentials{
+        url =
+            uri("https://makech-technology-879381274336.d.codeartifact.us-east-2.amazonaws.com/maven/makech-technology-maven-repository/")
+        credentials {
             username = "aws"
             password = System.getenv("CODEARTIFACT_AUTH_TOKEN")
         }
@@ -39,8 +40,8 @@ dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation(libs.guava)
 
-    implementation ("org.json:json:20231013")
-    implementation ("org.makechtec.software:json_tree:3.0.0")
+    implementation("org.json:json:20231013")
+    implementation("org.makechtec.software:json_tree:3.0.0")
     implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
     implementation("de.mkammerer:argon2-jvm:2.11")
 }
@@ -58,32 +59,33 @@ tasks.named<Test>("test") {
     finalizedBy(tasks.jacocoTestReport)
 }
 
-tasks.jacocoTestReport{
+tasks.jacocoTestReport {
     dependsOn(tasks.test)
 }
 
 publishing {
-    
+
     publications {
-        
-        
+
+
         publications.create<MavenPublication>("maven") {
             groupId = "org.makechtec.bearer_authentication"
             artifactId = "tools"
             version = project.version.toString()
             from(components["java"])
         }
-        
+
     }
-    
+
     repositories {
         maven {
-            url = uri("https://makech-technology-879381274336.d.codeartifact.us-east-2.amazonaws.com/maven/makech-technology-maven-repository/")
+            url =
+                uri("https://makech-technology-879381274336.d.codeartifact.us-east-2.amazonaws.com/maven/makech-technology-maven-repository/")
             credentials {
                 username = "aws"
                 password = System.getenv("CODEARTIFACT_AUTH_TOKEN")
             }
         }
     }
-    
+
 }

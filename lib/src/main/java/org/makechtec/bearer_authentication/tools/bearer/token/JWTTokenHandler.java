@@ -3,7 +3,6 @@ package org.makechtec.bearer_authentication.tools.bearer.token;
 import org.makechtec.software.json_tree.builders.ArrayStringLeafBuilder;
 import org.makechtec.software.json_tree.builders.ObjectLeafBuilder;
 
-import java.sql.SQLException;
 import java.util.logging.Logger;
 
 public class JWTTokenHandler {

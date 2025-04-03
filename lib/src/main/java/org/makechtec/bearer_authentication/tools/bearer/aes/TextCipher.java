@@ -8,7 +8,6 @@ import org.bouncycastle.crypto.modes.GCMModeCipher;
 import org.bouncycastle.crypto.params.AEADParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.util.Arrays;
-import org.bouncycastle.util.encoders.Hex;
 
 import java.security.SecureRandom;
 
@@ -53,7 +52,7 @@ public class TextCipher {
 
         return plaintext;
     }
-    
+
 }
 
 
