@@ -5,20 +5,15 @@ import org.makechtec.software.json_tree.builders.ObjectLeafBuilder;
 
 
 public class JWTTokenHandler {
+    
+    public String createTokenForSession(SessionInformation session, String secretKey) {
 
-    private final SignaturePrinter signaturePrinter;
-
-    public JWTTokenHandler(SignaturePrinter signaturePrinter) {
-        this.signaturePrinter = signaturePrinter;
-    }
-
-    public String createTokenForSession(SessionInformation session) {
-
+        var signaturePrinter = new SignaturePrinter(secretKey);
         var permissionsSet = ArrayStringLeafBuilder.builder();
 
         session.permissions().forEach(permissionsSet::add);
 
-        return TokenBuilder.builder(this.signaturePrinter)
+        return TokenBuilder.builder(signaturePrinter)
                 .header(
                         ObjectLeafBuilder.builder()
                                 .put("alg", "SHA256")
@@ -37,7 +32,9 @@ public class JWTTokenHandler {
                 .build();
     }
 
-    public boolean isValidSignature(String token) {
+    public boolean isValidSignature(String token, String secretKey) {
+        
+        var signaturePrinter = new SignaturePrinter(secretKey);
         var components = token.split("\\.");
 
         var message = components[0] + '.' + components[1];
@@ -47,6 +44,5 @@ public class JWTTokenHandler {
 
         return reformedToken.equals(token);
     }
-
 
 }

@@ -13,9 +13,11 @@ class JWTTokenHandlerTest {
 
     @Test
     void createTokenForSession() {
+        
+        
         var secretKey = "secretKey";
         var signaturePrinter = new SignaturePrinter(secretKey);
-        var tokenHandler = new JWTTokenHandler(signaturePrinter);
+        var tokenHandler = new JWTTokenHandler();
         var secureRandom = new SecureRandom();
         var expirationTime = Calendar.getInstance();
         expirationTime.add(Calendar.DAY_OF_MONTH, 1);
@@ -26,10 +28,10 @@ class JWTTokenHandlerTest {
                 List.of("read", "write")
         );
 
-        var token = tokenHandler.createTokenForSession(session);
+        var token = tokenHandler.createTokenForSession(session, secretKey);
 
         assertNotNull(token);
-        assertTrue(tokenHandler.isValidSignature(token));
+        assertTrue(tokenHandler.isValidSignature(token, secretKey));
 
     }
 }
