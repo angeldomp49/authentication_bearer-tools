@@ -1,6 +1,9 @@
 package org.makechtec.bearer_authentication.tools.bearer.stateless.token;
 
+import org.json.JSONObject;
 import org.makechtec.software.json_tree.ObjectLeaf;
+
+import java.util.Base64;
 
 public class JWTTokenGenerator {
 
@@ -25,6 +28,16 @@ public class JWTTokenGenerator {
         var reformedToken = components[0] + '.' + components[1] + '.' + reformedSignature;
 
         return reformedToken.equals(token);
+    }
+    
+    public JSONObject getJWTPayload(String token, String secretKey) {
+        var components = token.split("\\.");
+        return new JSONObject(Base64.getDecoder().decode(components[1]));
+    }
+
+    public JSONObject getJWTHeader(String token, String secretKey) {
+        var components = token.split("\\.");
+        return new JSONObject(Base64.getDecoder().decode(components[0]));
     }
 
 }
