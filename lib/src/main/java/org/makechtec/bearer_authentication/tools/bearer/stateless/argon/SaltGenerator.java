@@ -1,4 +1,4 @@
-package org.makechtec.bearer_authentication.tools.bearer.argon;
+package org.makechtec.bearer_authentication.tools.bearer.stateless.argon;
 
 import java.security.SecureRandom;
 

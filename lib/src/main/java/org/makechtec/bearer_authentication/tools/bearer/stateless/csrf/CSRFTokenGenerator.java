@@ -1,4 +1,4 @@
-package org.makechtec.bearer_authentication.tools.bearer.csrf;
+package org.makechtec.bearer_authentication.tools.bearer.stateless.csrf;
 
 import com.google.common.hash.Hashing;
 

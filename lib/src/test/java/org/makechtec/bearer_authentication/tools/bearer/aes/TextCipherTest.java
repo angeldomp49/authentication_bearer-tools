@@ -3,6 +3,7 @@ package org.makechtec.bearer_authentication.tools.bearer.aes;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.jupiter.api.Test;
+import org.makechtec.bearer_authentication.tools.bearer.stateless.aes.TextCipher;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;

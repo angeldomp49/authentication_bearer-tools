@@ -1,4 +1,4 @@
-package org.makechtec.bearer_authentication.tools.bearer.argon;
+package org.makechtec.bearer_authentication.tools.bearer.stateless.argon;
 
 import de.mkammerer.argon2.Argon2Factory;
 import org.bouncycastle.util.encoders.Hex;

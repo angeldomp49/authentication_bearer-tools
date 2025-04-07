@@ -1,6 +1,8 @@
 package org.makechtec.bearer_authentication.tools.bearer.argon;
 
 import org.junit.jupiter.api.Test;
+import org.makechtec.bearer_authentication.tools.bearer.stateless.argon.ArgonSettings;
+import org.makechtec.bearer_authentication.tools.bearer.stateless.argon.PasswordHasherNative;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

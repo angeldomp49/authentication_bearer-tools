@@ -1,4 +1,4 @@
-package org.makechtec.bearer_authentication.tools.bearer.token;
+package org.makechtec.bearer_authentication.tools.bearer.stateless.token;
 
 import java.util.Calendar;
 import java.util.List;

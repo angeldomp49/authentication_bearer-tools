@@ -1,4 +1,4 @@
-package org.makechtec.bearer_authentication.tools.bearer.token;
+package org.makechtec.bearer_authentication.tools.bearer.stateless.token;
 
 import com.google.common.hash.Hashing;
 

@@ -1,4 +1,4 @@
-package org.makechtec.bearer_authentication.tools.bearer.argon;
+package org.makechtec.bearer_authentication.tools.bearer.stateless.argon;
 
 public interface PasswordHasher {
     byte[] rawHash(String password);

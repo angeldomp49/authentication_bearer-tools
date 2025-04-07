@@ -1,6 +1,9 @@
 package org.makechtec.bearer_authentication.tools.bearer.token;
 
 import org.junit.jupiter.api.Test;
+import org.makechtec.bearer_authentication.tools.bearer.stateless.token.JWTTokenHandler;
+import org.makechtec.bearer_authentication.tools.bearer.stateless.token.SessionInformation;
+import org.makechtec.bearer_authentication.tools.bearer.stateless.token.SignaturePrinter;
 
 import java.security.SecureRandom;
 import java.util.Calendar;
