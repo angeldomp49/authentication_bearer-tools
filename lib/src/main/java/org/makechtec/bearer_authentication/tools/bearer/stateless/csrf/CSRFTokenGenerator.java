@@ -22,7 +22,7 @@ public class CSRFTokenGenerator {
         var salt = new byte[SALT_LENGTH_BYTES];
         randomGenerator.nextBytes(salt);
         var formattedSalt = this.formatSaltToString(salt);
-        
+
         var hashedValue = hash(formattedSalt);
 
         return "${salt}.${hashedValue}"

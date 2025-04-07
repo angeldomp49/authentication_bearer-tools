@@ -9,10 +9,10 @@ import java.util.Arrays;
 
 public class PasswordHasherNative implements PasswordHasher {
 
-    private final ArgonSettings crypographyInformation;
-    private final SaltGenerator saltGenerator = new SaltGenerator();
     private static final int HASH_LENGTH_BYTES = 64;
     private static final int SALT_LENGTH_BYTES = 16;
+    private final ArgonSettings crypographyInformation;
+    private final SaltGenerator saltGenerator = new SaltGenerator();
 
     public PasswordHasherNative(ArgonSettings crypographyInformation) {
         this.crypographyInformation = crypographyInformation;

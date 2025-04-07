@@ -16,8 +16,8 @@ class JWTTokenHandlerTest {
 
     @Test
     void createTokenForSession() {
-        
-        
+
+
         var secretKey = "secretKey";
         var signaturePrinter = new SignaturePrinter(secretKey);
         var tokenHandler = new JWTTokenHandler();

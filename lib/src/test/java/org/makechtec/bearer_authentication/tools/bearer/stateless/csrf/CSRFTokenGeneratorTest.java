@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.security.SecureRandom;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CSRFTokenGeneratorTest {
 
@@ -19,9 +20,9 @@ class CSRFTokenGeneratorTest {
 
         var secretKey = new String(Hex.encode(key));
         var generator = new CSRFTokenGenerator(secretKey);
-        
+
         var csrfToken = generator.generateCSRFToken();
-        
+
         assertTrue(generator.isValidCSRFToken(csrfToken));
     }
 
@@ -37,7 +38,7 @@ class CSRFTokenGeneratorTest {
         var secretKey = new String(Hex.encode(key));
         var generator = new CSRFTokenGenerator(secretKey);
 
-        
+
         var key2 = new byte[16];
 
         secureRandom.nextBytes(key2);
@@ -47,8 +48,8 @@ class CSRFTokenGeneratorTest {
 
         var csrfToken2 = generator2.generateCSRFToken();
 
-        
+
         assertFalse(generator.isValidCSRFToken(csrfToken2));
     }
-    
+
 }

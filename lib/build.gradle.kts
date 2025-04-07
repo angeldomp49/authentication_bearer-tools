@@ -12,7 +12,7 @@ plugins {
     jacoco
 }
 
-version = "1.2.0"
+version = "1.3.0"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -44,7 +44,7 @@ dependencies {
     implementation("org.makechtec.software:json_tree:3.0.0")
     implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
     implementation("de.mkammerer:argon2-jvm:2.11")
-    implementation ("org.makechtec.software:sql_support:3.0.0-beta")
+    implementation("org.makechtec.software:sql_support:3.0.0-beta")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

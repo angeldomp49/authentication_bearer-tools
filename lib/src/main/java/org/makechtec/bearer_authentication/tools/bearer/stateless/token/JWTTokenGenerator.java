@@ -3,7 +3,7 @@ package org.makechtec.bearer_authentication.tools.bearer.stateless.token;
 import org.makechtec.software.json_tree.ObjectLeaf;
 
 public class JWTTokenGenerator {
-    
+
     public String generateJWT(String secretKey, ObjectLeaf jsonHeader, ObjectLeaf jsonPayload) {
         var signaturePrinter = new SignaturePrinter(secretKey);
 
@@ -26,5 +26,5 @@ public class JWTTokenGenerator {
 
         return reformedToken.equals(token);
     }
-    
+
 }

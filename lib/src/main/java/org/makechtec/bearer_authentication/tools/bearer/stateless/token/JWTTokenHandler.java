@@ -5,7 +5,7 @@ import org.makechtec.software.json_tree.builders.ObjectLeafBuilder;
 
 
 public class JWTTokenHandler {
-    
+
     public String createTokenForSession(SessionInformation session, String secretKey) {
 
         var signaturePrinter = new SignaturePrinter(secretKey);
@@ -33,7 +33,7 @@ public class JWTTokenHandler {
     }
 
     public boolean isValidSignature(String token, String secretKey) {
-        
+
         var signaturePrinter = new SignaturePrinter(secretKey);
         var components = token.split("\\.");
 
