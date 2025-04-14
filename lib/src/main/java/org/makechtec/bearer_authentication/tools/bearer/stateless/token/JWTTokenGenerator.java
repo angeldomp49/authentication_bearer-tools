@@ -30,12 +30,12 @@ public class JWTTokenGenerator {
         return reformedToken.equals(token);
     }
     
-    public JSONObject getJWTPayload(String token, String secretKey) {
+    public JSONObject getJWTPayload(String token) {
         var components = token.split("\\.");
         return new JSONObject(Base64.getDecoder().decode(components[1]));
     }
 
-    public JSONObject getJWTHeader(String token, String secretKey) {
+    public JSONObject getJWTHeader(String token) {
         var components = token.split("\\.");
         return new JSONObject(Base64.getDecoder().decode(components[0]));
     }
