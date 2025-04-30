@@ -9,30 +9,25 @@ import java.security.SecureRandom;
 public class CSRFTokenGenerator {
 
     private static final int SALT_LENGTH_BYTES = 16;
+    
 
-    private final String secretKey;
-
-    public CSRFTokenGenerator(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    public String generateCSRFToken() {
+    public String generateCSRFToken(String secretKey) {
 
         var randomGenerator = new SecureRandom();
         var salt = new byte[SALT_LENGTH_BYTES];
         randomGenerator.nextBytes(salt);
         var formattedSalt = this.formatSaltToString(salt);
 
-        var hashedValue = hash(formattedSalt);
+        var hashedValue = hash(formattedSalt, secretKey);
 
         return "${salt}.${hashedValue}"
                 .replace("${salt}", formatSaltToString(salt))
                 .replace("${hashedValue}", hashedValue.toString());
     }
 
-    public boolean isValidCSRFToken(String token) {
+    public boolean isValidCSRFToken(String token, String secretKey) {
         var tokenComponents = token.split("\\.");
-        var hashedValue = hash(tokenComponents[0]);
+        var hashedValue = hash(tokenComponents[0], secretKey);
         return hashedValue.equals(HashCode.fromString(tokenComponents[1]));
     }
 
@@ -44,7 +39,7 @@ public class CSRFTokenGenerator {
         return hexString.toString();
     }
 
-    private HashCode hash(String formattedSalt) {
+    private HashCode hash(String formattedSalt, String secretKey) {
         return Hashing.hmacSha512(secretKey.getBytes(StandardCharsets.UTF_8))
                 .hashString(formattedSalt, StandardCharsets.UTF_8);
     }

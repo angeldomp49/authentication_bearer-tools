@@ -19,11 +19,11 @@ class CSRFTokenGeneratorTest {
         secureRandom.nextBytes(key);
 
         var secretKey = new String(Hex.encode(key));
-        var generator = new CSRFTokenGenerator(secretKey);
+        var generator = new CSRFTokenGenerator();
 
-        var csrfToken = generator.generateCSRFToken();
+        var csrfToken = generator.generateCSRFToken(secretKey);
 
-        assertTrue(generator.isValidCSRFToken(csrfToken));
+        assertTrue(generator.isValidCSRFToken(csrfToken, secretKey));
     }
 
 
@@ -36,7 +36,7 @@ class CSRFTokenGeneratorTest {
         secureRandom.nextBytes(key);
 
         var secretKey = new String(Hex.encode(key));
-        var generator = new CSRFTokenGenerator(secretKey);
+        var generator = new CSRFTokenGenerator();
 
 
         var key2 = new byte[16];
@@ -44,12 +44,12 @@ class CSRFTokenGeneratorTest {
         secureRandom.nextBytes(key2);
 
         var secretKey2 = new String(Hex.encode(key2));
-        var generator2 = new CSRFTokenGenerator(secretKey2);
+        var generator2 = new CSRFTokenGenerator();
 
-        var csrfToken2 = generator2.generateCSRFToken();
+        var csrfToken2 = generator2.generateCSRFToken(secretKey2);
 
 
-        assertFalse(generator.isValidCSRFToken(csrfToken2));
+        assertFalse(generator.isValidCSRFToken(csrfToken2, secretKey));
     }
 
 }
