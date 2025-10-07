@@ -32,12 +32,14 @@ public class JWTTokenGenerator {
     
     public JSONObject getJWTPayload(String token) {
         var components = token.split("\\.");
-        return new JSONObject(Base64.getDecoder().decode(components[1]));
+        var decoded = Base64.getDecoder().decode(components[1]);
+        return new JSONObject(new String(decoded));
     }
 
     public JSONObject getJWTHeader(String token) {
         var components = token.split("\\.");
-        return new JSONObject(Base64.getDecoder().decode(components[0]));
+        var decoded = Base64.getDecoder().decode(components[0]);
+        return new JSONObject(new String(decoded));
     }
 
 }

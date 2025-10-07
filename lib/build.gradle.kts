@@ -12,7 +12,7 @@ plugins {
     jacoco
 }
 
-version = "1.4.2"
+version = "1.4.3"
 
 repositories {
     // Use Maven Central for resolving dependencies.
