@@ -31,8 +31,18 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.platform)
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    // JUnit 4 for Concordion compatibility
+    testImplementation(libs.junit4)
+    testRuntimeOnly(libs.junit.vintage.engine)
+
+    // Concordion and testing dependencies
+    testImplementation(libs.concordion)
+    testImplementation(libs.assertj.core)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.junit.jupiter)
+    testImplementation(libs.hamcrest)
 
     // This dependency is exported to consumers, that is to say found on their compile classpath.
     api(libs.commons.math3)
@@ -44,7 +54,7 @@ dependencies {
     implementation("org.makechtec.software:json_tree:3.0.0")
     implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
     implementation("de.mkammerer:argon2-jvm:2.11")
-    implementation("org.makechtec.software:sql_support:3.0.0-beta")
+    implementation("org.makechtec.software:sql_support:3.0.3-BETA")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -58,10 +68,20 @@ tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport)
+    systemProperty("concordion.output.dir", "$buildDir/reports/spec")
 }
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco"))
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.11"
 }
 
 publishing {

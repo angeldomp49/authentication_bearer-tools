@@ -3,6 +3,8 @@ package org.makechtec.bearer_authentication.tools.bearer.stateless.token;
 import org.makechtec.software.json_tree.builders.ArrayStringLeafBuilder;
 import org.makechtec.software.json_tree.builders.ObjectLeafBuilder;
 
+import java.util.UUID;
+
 
 public class JWTTokenHandler {
 
@@ -26,6 +28,7 @@ public class JWTTokenHandler {
                                 .put("uid", session.userId())
                                 .put("isClosed", session.isClosed())
                                 .put("permissions", permissionsSet.build())
+                                .put("jti", UUID.randomUUID().toString())
                                 .build()
                 )
                 .sign()
