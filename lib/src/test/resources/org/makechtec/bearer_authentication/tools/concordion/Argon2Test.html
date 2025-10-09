@@ -14,7 +14,10 @@
     <div class="example" concordion:example="basicHashing">
         <p>Given a password <span concordion:set="#password">MySecurePassword123!</span></p>
         <p>When hashing the password</p>
-        <p>Then the hash <span concordion:assertTrue="isDifferentFromPassword(#password, #hash)">should be different from the password</span></p>
+        <p>Then the hash 
+            <span concordion:execute="" />
+            <span concordion:assertTrue="isDifferentFromPassword(#password, #hash)">should be different from the password</span>
+        </p>
         <p>And verification with correct password returns <span concordion:assertEquals="true"
            concordion:execute="#verified = verifyPassword(#password, #hash)">#verified</span></p>
         <p>And verification with wrong password returns <span concordion:assertEquals="false"
