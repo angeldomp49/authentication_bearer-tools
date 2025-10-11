@@ -42,6 +42,8 @@ You will mock as fewer components as possible, like the libraries or databases c
 You have to read the tests to understand the main features of the project as well as the most
 important components.
 
+You have to make sure you are testing features not test code.
+
 You have to read the external-references directory to understand the usage of the libraries.
 
 You have to create a test matrix in mark-down format for to test all cases you identify for all the components.
@@ -64,4 +66,4 @@ the test execution.
 
 ## Conditions to Stop ##
 
-You will stop when you created and run successfully all the tests for all the components.
+You will stop when you created the tests and when you run them even when they fail, the concordion reports are generated.

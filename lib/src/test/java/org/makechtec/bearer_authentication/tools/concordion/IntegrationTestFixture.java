@@ -2,6 +2,7 @@ package org.makechtec.bearer_authentication.tools.concordion;
 
 import org.concordion.api.FullOGNL;
 import org.concordion.integration.junit4.ConcordionRunner;
+import org.json.JSONObject;
 import org.junit.runner.RunWith;
 import org.makechtec.bearer_authentication.tools.bearer.stateless.token.JWTTokenHandler;
 import org.makechtec.bearer_authentication.tools.bearer.stateless.token.SessionInformation;
@@ -57,7 +58,8 @@ public class IntegrationTestFixture {
                     expiration,
                     false,
                     userIdLong,
-                    List.of("READ", "WRITE")
+                    List.of("READ", "WRITE"),
+                    new JSONObject()
             );
 
             String token = tokenHandler.createTokenForSession(session, secretKey);
@@ -95,7 +97,8 @@ public class IntegrationTestFixture {
                     expiration,
                     false,
                     userIdLong,
-                    List.of("ENCRYPTED_DATA:" + encryptedData)
+                    List.of("ENCRYPTED_DATA:" + encryptedData),
+                    new JSONObject()
             );
 
             String token = tokenHandler.createTokenForSession(session, tokenSecret);
@@ -169,7 +172,8 @@ public class IntegrationTestFixture {
                     expiration,
                     false,
                     userIdLong,
-                    List.of("ENCRYPTED:" + encryptedSensitiveData)
+                    List.of("ENCRYPTED:" + encryptedSensitiveData),
+                    new JSONObject()
             );
 
             String token = tokenHandler.createTokenForSession(session, tokenSecret);
@@ -211,7 +215,8 @@ public class IntegrationTestFixture {
                         expiration,
                         false,
                         userIdLong,
-                        List.of("READ")
+                        List.of("READ"),
+                        new JSONObject()
                 );
 
                 String token = tokenHandler.createTokenForSession(session, tokenSecret);
