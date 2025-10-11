@@ -26,7 +26,8 @@ class JWTTokenHandlerTest {
                 expirationTime,
                 false,
                 secureRandom.nextInt(),
-                List.of("read", "write")
+                List.of("read", "write"),
+                new org.json.JSONObject()
         );
 
         var token = tokenHandler.createTokenForSession(session, secretKey);

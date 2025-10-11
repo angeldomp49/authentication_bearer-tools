@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:concordion="http://www.concordion.org/2007/concordion">
+<head>
+    <title>Cryptographic Components Integration Tests</title>
+    <link href="../css/concordion-custom.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <h1>Cryptographic Components Integration Tests</h1>
+    
+    <div class="example">
+        <h2>Secure Credential Storage Integration</h2>
+        
+        <h3>Argon2 + AES Double Protection</h3>
+        <p>When I store credentials securely using password <span concordion:set="#password">"MySecurePassword123"</span>
+        with Argon2 hashing followed by AES encryption,
+        the complete process should <span concordion:assertEquals="#result = testSecureCredentialStorage(#password)">SUCCESS</span></p>
+        
+        <table>
+            <tr>
+                <th>Password Type</th>
+                <th>Password</th>
+                <th>Double Protection Result</th>
+            </tr>
+            <tr>
+                <td>Standard</td>
+                <td concordion:set="#pwd1">StandardPassword123</td>
+                <td concordion:assertEquals="#result = testSecureCredentialStorage(#pwd1)">SUCCESS</td>
+            </tr>
+            <tr>
+                <td>Complex</td>
+                <td concordion:set="#pwd2">C0mpl3x!P@$$w0rd</td>
+                <td concordion:assertEquals="#result = testSecureCredentialStorage(#pwd2)">SUCCESS</td>
+            </tr>
+            <tr>
+                <td>Unicode</td>
+                <td concordion:set="#pwd3">пароль123</td>
+                <td concordion:assertEquals="#result = testSecureCredentialStorage(#pwd3)">SUCCESS</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="example">
+        <h2>Token Payload Encryption Integration</h2>
+        
+        <h3>JWT + AES Sensitive Data Protection</h3>
+        <p>When I create a JWT token for user <span concordion:set="#userId">"sensitiveUser"</span>
+        with encrypted sensitive data <span concordion:execute="#sensitiveData = generateSensitiveData()">generated</span>
+        using JWT secret <span concordion:execute="#jwtSecret = generateJWTSecret()">generated</span>,
+        the integration should <span concordion:assertEquals="#result = testTokenPayloadEncryption(#userId, #sensitiveData, #jwtSecret)">SUCCESS</span></p>
+        
+        <h3>Various Sensitive Data Types</h3>
+        <table>
+            <tr>
+                <th>Data Type</th>
+                <th>User ID</th>
+                <th>Sensitive Data</th>
+                <th>Integration Result</th>
+            </tr>
+            <tr concordion:execute="#jwtSecret = generateJWTSecret()">
+                <td>Personal Info</td>
+                <td concordion:set="#userId">user001</td>
+                <td concordion:set="#data">SSN: 123-45-6789, DOB: 1990-01-01</td>
+                <td concordion:assertEquals="#result = testTokenPayloadEncryption(#userId, #data, #jwtSecret)">SUCCESS</td>
+            </tr>
+            <tr concordion:execute="#jwtSecret = generateJWTSecret()">
+                <td>Financial Data</td>
+                <td concordion:set="#userId">user002</td>
+                <td concordion:set="#data">Account: 4111-1111-1111-1111, Balance: $5000</td>
+                <td concordion:assertEquals="#result = testTokenPayloadEncryption(#userId, #data, #jwtSecret)">SUCCESS</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="example">
+        <h2>Password-Based Encryption Integration</h2>
+        
+        <h3>Password Key Derivation + AES</h3>
+        <p>When I derive encryption keys from password <span concordion:set="#password">"KeyDerivationPassword"</span>
+        to encrypt plaintext <span concordion:set="#plaintext">"Secret document content"</span>,
+        the process should <span concordion:assertEquals="#result = testPasswordBasedEncryption(#password, #plaintext)">SUCCESS</span></p>
+        
+        <table>
+            <tr>
+                <th>Password</th>
+                <th>Plaintext</th>
+                <th>Encryption Result</th>
+            </tr>
+            <tr>
+                <td concordion:set="#pwd">SimplePassword</td>
+                <td concordion:set="#text">Simple secret message</td>
+                <td concordion:assertEquals="#result = testPasswordBasedEncryption(#pwd, #text)">SUCCESS</td>
+            </tr>
+            <tr>
+                <td concordion:set="#pwd">ComplexPassword!@#</td>
+                <td concordion:set="#text">Complex secret data with unicode: 測試</td>
+                <td concordion:assertEquals="#result = testPasswordBasedEncryption(#pwd, #text)">SUCCESS</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="example">
+        <h2>Multi-Layer Security Integration</h2>
+        
+        <h3>Argon2 + AES + JWT Combined</h3>
+        <p>When I implement multi-layer security with password <span concordion:set="#password">"MultiLayerPassword123"</span>,
+        user data <span concordion:set="#userData">"Highly sensitive user information"</span>,
+        and JWT secret <span concordion:execute="#jwtSecret = generateJWTSecret()">generated</span>,
+        all layers should work together and result in <span concordion:assertEquals="#result = testMultiLayerSecurity(#password, #userData, #jwtSecret)">SUCCESS</span></p>
+        
+        <h3>Different Security Scenarios</h3>
+        <table>
+            <tr>
+                <th>Scenario</th>
+                <th>Password</th>
+                <th>User Data</th>
+                <th>Multi-Layer Result</th>
+            </tr>
+            <tr concordion:execute="#jwtSecret = generateJWTSecret()">
+                <td>High Security</td>
+                <td concordion:set="#pwd">HighSecurityPassword!2024</td>
+                <td concordion:set="#data">Top secret government data</td>
+                <td concordion:assertEquals="#result = testMultiLayerSecurity(#pwd, #data, #jwtSecret)">SUCCESS</td>
+            </tr>
+            <tr concordion:execute="#jwtSecret = generateJWTSecret()">
+                <td>Medical Records</td>
+                <td concordion:set="#pwd">MedicalRecords@2024</td>
+                <td concordion:set="#data">Patient: John Doe, Diagnosis: Confidential</td>
+                <td concordion:assertEquals="#result = testMultiLayerSecurity(#pwd, #data, #jwtSecret)">SUCCESS</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="example">
+        <h2>Cross-Component Validation</h2>
+        
+        <h3>All Components Working Together</h3>
+        <p>When I validate input <span concordion:set="#input">"crossComponentTest"</span>
+        across all cryptographic components (Argon2, AES, JWT),
+        the result should be <span concordion:assertEquals="#result = testCrossComponentValidation(#input)">ALL_COMPONENTS_VALID</span></p>
+        
+        <h3>Various Input Types</h3>
+        <table>
+            <tr>
+                <th>Input Type</th>
+                <th>Input Value</th>
+                <th>Cross-Component Result</th>
+            </tr>
+            <tr>
+                <td>Alphanumeric</td>
+                <td concordion:set="#input">AlphaNumeric123</td>
+                <td concordion:assertEquals="#result = testCrossComponentValidation(#input)">ALL_COMPONENTS_VALID</td>
+            </tr>
+            <tr>
+                <td>Special Characters</td>
+                <td concordion:set="#input">Special!@#$%</td>
+                <td concordion:assertEquals="#result = testCrossComponentValidation(#input)">ALL_COMPONENTS_VALID</td>
+            </tr>
+            <tr>
+                <td>Unicode</td>
+                <td concordion:set="#input">Unicode測試🔐</td>
+                <td concordion:assertEquals="#result = testCrossComponentValidation(#input)">ALL_COMPONENTS_VALID</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="example">
+        <h2>Key Rotation Scenarios</h2>
+        
+        <h3>JWT Secret Key Rotation</h3>
+        <p>When I test key rotation for user <span concordion:set="#userId">"rotationTestUser"</span>
+        from old secret <span concordion:set="#oldSecret">"oldSecretKeyForRotationTest"</span>
+        to new secret <span concordion:set="#newSecret">"newSecretKeyForRotationTest"</span>,
+        the rotation should result in <span concordion:assertEquals="#result = testKeyRotationScenario(#userId, #oldSecret, #newSecret)">KEY_ROTATION_SUCCESS</span></p>
+        
+        <h3>Multiple User Key Rotation</h3>
+        <table>
+            <tr>
+                <th>User ID</th>
+                <th>Old Secret</th>
+                <th>New Secret</th>
+                <th>Rotation Result</th>
+            </tr>
+            <tr>
+                <td concordion:set="#userId">admin</td>
+                <td concordion:set="#oldKey">adminOldSecretKey2024</td>
+                <td concordion:set="#newKey">adminNewSecretKey2024</td>
+                <td concordion:assertEquals="#result = testKeyRotationScenario(#userId, #oldKey, #newKey)">KEY_ROTATION_SUCCESS</td>
+            </tr>
+            <tr>
+                <td concordion:set="#userId">service</td>
+                <td concordion:set="#oldKey">serviceOldSecretKey2024</td>
+                <td concordion:set="#newKey">serviceNewSecretKey2024</td>
+                <td concordion:assertEquals="#result = testKeyRotationScenario(#userId, #oldKey, #newKey)">KEY_ROTATION_SUCCESS</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
+

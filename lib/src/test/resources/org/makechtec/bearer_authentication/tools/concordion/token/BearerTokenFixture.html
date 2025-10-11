@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:concordion="http://www.concordion.org/2007/concordion">
+<head>
+    <title>JWT Bearer Token Generation and Validation</title>
+    <link href="../css/concordion-custom.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <h1>JWT Bearer Token Generation and Validation</h1>
+    
+    <div class="example">
+        <h2>Basic Token Operations</h2>
+        
+        <h3>Token Generation and Structure</h3>
+        <p>When I create a token for user <span concordion:set="#userId">"user123"</span>
+        with secret key <span concordion:execute="#secretKey = generateSecretKey()">generated</span>
+        and expiration <span concordion:set="#expiration">60</span> minutes,
+        the token should have <span concordion:assertEquals="#result = validateTokenStructure(createToken(#userId, #secretKey, #expiration))">VALID_STRUCTURE</span></p>
+        
+        <h3>Round-trip Token Validation</h3>
+        <p>When I create and validate a token for user <span concordion:set="#testUser">"testUser456"</span>
+        with secret key <span concordion:execute="#testKey = generateSecretKey()">generated</span>,
+        the round-trip should <span concordion:assertEquals="#result = testRoundTripToken(#testUser, #testKey)">SUCCESS</span></p>
+    </div>
+    
+    <div class="example">
+        <h2>Token Validation</h2>
+        
+        <h3>Valid Token Verification</h3>
+        <table>
+            <tr>
+                <th>User ID</th>
+                <th>Expiration (minutes)</th>
+                <th>Validation Result</th>
+            </tr>
+            <tr concordion:execute="#secretKey = generateSecretKey()">
+                <td concordion:set="#userId">alice</td>
+                <td concordion:set="#exp">30</td>
+                <td concordion:assertEquals="#result = validateToken(createToken(#userId, #secretKey, #exp), #secretKey)">VALID</td>
+            </tr>
+            <tr concordion:execute="#secretKey = generateSecretKey()">
+                <td concordion:set="#userId">bob</td>
+                <td concordion:set="#exp">120</td>
+                <td concordion:assertEquals="#result = validateToken(createToken(#userId, #secretKey, #exp), #secretKey)">VALID</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="example">
+        <h2>Security Validations</h2>
+        
+        <h3>Expired Token Handling</h3>
+        <p>When I create an expired token for user <span concordion:set="#expiredUser">"expiredUser"</span>
+        with secret key <span concordion:execute="#expiredKey = generateSecretKey()">generated</span>,
+        validation should result in <span concordion:assertEquals="#result = testExpiredToken(#expiredUser, #expiredKey)">CORRECTLY_EXPIRED</span></p>
+        
+        <h3>Tampered Token Detection</h3>
+        <p>When I tamper with a token for user <span concordion:set="#tamperedUser">"tamperedUser"</span>
+        with secret key <span concordion:execute="#tamperedKey = generateSecretKey()">generated</span>,
+        validation should result in <span concordion:assertEquals="#result = testTamperedToken(#tamperedUser, #tamperedKey)">CORRECTLY_REJECTED</span></p>
+        
+        <h3>Wrong Secret Key</h3>
+        <p>When I validate a token with the wrong secret key for user <span concordion:set="#wrongKeyUser">"wrongKeyUser"</span>
+        using correct key <span concordion:execute="#correctKey = generateSecretKey()">generated</span>
+        and wrong key <span concordion:execute="#wrongKey = generateSecretKey()">different</span>,
+        validation should result in <span concordion:assertEquals="#result = testWrongSecretKey(#wrongKeyUser, #correctKey, #wrongKey)">CORRECTLY_REJECTED</span></p>
+    </div>
+    
+    <div class="example">
+        <h2>Input Validation</h2>
+        
+        <h3>Null Input Handling</h3>
+        <table>
+            <tr>
+                <th>Input Type</th>
+                <th>Throws Exception</th>
+            </tr>
+            <tr concordion:execute="#result = validateNullInputs(#inputType)">
+                <td concordion:set="#inputType">session</td>
+                <td concordion:assertTrue="#result.startsWith('EXPECTED_EXCEPTION')">✓</td>
+            </tr>
+            <tr concordion:execute="#result = validateNullInputs(#inputType)">
+                <td concordion:set="#inputType">secretKey</td>
+                <td concordion:assertTrue="#result.startsWith('EXPECTED_EXCEPTION')">✓</td>
+            </tr>
+            <tr concordion:execute="#result = validateNullInputs(#inputType)">
+                <td concordion:set="#inputType">token</td>
+                <td concordion:assertTrue="#result.startsWith('EXPECTED_EXCEPTION')">✓</td>
+            </tr>
+        </table>
+        
+        <h3>Secret Key Length Validation</h3>
+        <p>When I use a short secret key <span concordion:execute="#shortKey = generateShortKey()">generated</span>,
+        token creation should <span concordion:assertTrue="#result = validateShortSecretKey(#shortKey).startsWith('EXPECTED_EXCEPTION')">throw an exception</span></p>
+    </div>
+    
+    <div class="example">
+        <h2>Custom Claims Support</h2>
+        
+        <h3>Custom Data in Tokens</h3>
+        <table>
+            <tr>
+                <th>User ID</th>
+                <th>Custom Claim</th>
+                <th>Custom Value</th>
+                <th>Result</th>
+            </tr>
+            <tr concordion:execute="#secretKey = generateSecretKey()">
+                <td concordion:set="#userId">customUser1</td>
+                <td concordion:set="#claim">role</td>
+                <td concordion:set="#value">admin</td>
+                <td concordion:assertEquals="#result = testCustomClaims(#userId, #secretKey, #claim, #value)">SUCCESS</td>
+            </tr>
+            <tr concordion:execute="#secretKey = generateSecretKey()">
+                <td concordion:set="#userId">customUser2</td>
+                <td concordion:set="#claim">department</td>
+                <td concordion:set="#value">engineering</td>
+                <td concordion:assertEquals="#result = testCustomClaims(#userId, #secretKey, #claim, #value)">SUCCESS</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:concordion="http://www.concordion.org/2007/concordion">
+<head>
+    <title>Argon2id Password Hashing</title>
+    <link href="../css/concordion-custom.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <h1>Argon2id Password Hashing</h1>
+    
+    <div class="example">
+        <h2>Basic Password Hashing Operations</h2>
+        
+        <h3>Password Hash Generation</h3>
+        <p>When I hash the password <span concordion:set="#password">"mySecurePassword123"</span>,
+        the result should have <span concordion:assertEquals="#result = validateHashFormat(hashPassword(#password))">VALID_FORMAT</span></p>
+        
+        <h3>Round-trip Password Verification</h3>
+        <p>When I hash and verify the password <span concordion:set="#testPassword">"testPassword456"</span>,
+        the verification should <span concordion:assertEquals="#result = testRoundTripHashing(#testPassword)">SUCCESS</span></p>
+        
+        <h3>Wrong Password Rejection</h3>
+        <p>When I hash password <span concordion:set="#correctPwd">"correctPassword"</span> 
+        and verify with wrong password <span concordion:set="#wrongPwd">"wrongPassword"</span>,
+        it should be <span concordion:assertEquals="#result = testWrongPassword(#correctPwd, #wrongPwd)">CORRECTLY_REJECTED</span></p>
+    </div>
+    
+    <div class="example">
+        <h2>Hash Format Validation</h2>
+        
+        <h3>Hash Structure</h3>
+        <table>
+            <tr>
+                <th>Password</th>
+                <th>Hash Format Valid</th>
+            </tr>
+            <tr>
+                <td concordion:set="#pwd">strongPassword123</td>
+                <td concordion:assertEquals="#result = validateHashFormat(hashPassword(#pwd))">VALID_FORMAT</td>
+            </tr>
+            <tr>
+                <td concordion:set="#pwd">shortPwd</td>
+                <td concordion:assertEquals="#result = validateHashFormat(hashPassword(#pwd))">VALID_FORMAT</td>
+            </tr>
+            <tr>
+                <td concordion:set="#pwd">¡Contraseña123!</td>
+                <td concordion:assertEquals="#result = validateHashFormat(hashPassword(#pwd))">VALID_FORMAT</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="example">
+        <h2>Input Validation</h2>
+        
+        <h3>Null Password Handling</h3>
+        <p>When I try to hash a null password,
+        it should throw <span concordion:assertTrue="#result = validateNullPassword().startsWith('EXPECTED_EXCEPTION')">an exception</span></p>
+        
+        <h3>Empty Password Handling</h3>
+        <p>When I hash an empty password,
+        it should produce <span concordion:assertEquals="#result = validateEmptyPassword()">VALID_HASH</span></p>
+    </div>
+    
+    <div class="example">
+        <h2>Security Properties</h2>
+        
+        <h3>Hash Uniqueness</h3>
+        <p>When hashing the same password <span concordion:set="#repeatedPwd">"repeatedPassword"</span>
+        multiple times (<span concordion:set="#iterations">50</span> iterations),
+        all hashes should be <span concordion:assertTrue="#result = verifyHashUniqueness(#repeatedPwd, #iterations)">unique</span></p>
+        
+        <h3>Timing Attack Resistance</h3>
+        <p>When comparing correct password <span concordion:set="#timingCorrect">"timingTestPassword"</span>
+        with wrong password <span concordion:set="#timingWrong">"differentPassword"</span>,
+        verification should be <span concordion:assertEquals="#result = testTimingAttackResistance(#timingCorrect, #timingWrong)">TIMING_SAFE</span></p>
+    </div>
+    
+    <div class="example">
+        <h2>Salt Generation</h2>
+        
+        <h3>Salt Length Validation</h3>
+        <p>Generated salt should have <span concordion:assertEquals="#result = generateSalt()">CORRECT_LENGTH</span> (16 bytes)</p>
+        
+        <h3>Salt Uniqueness</h3>
+        <p>When generating multiple salts (<span concordion:set="#saltIterations">100</span> iterations),
+        all salts should be <span concordion:assertTrue="#result = verifySaltUniqueness(#saltIterations)">unique</span></p>
+    </div>
+
+</body>
+</html>
+

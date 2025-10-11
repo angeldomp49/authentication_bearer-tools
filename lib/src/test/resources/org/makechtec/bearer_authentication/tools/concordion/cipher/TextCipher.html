@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:concordion="http://www.concordion.org/2007/concordion">
+<head>
+    <title>TextCipher - AES-256-GCM Encryption/Decryption</title>
+    <link href="../css/concordion-custom.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <h1>TextCipher - AES-256-GCM Encryption/Decryption</h1>
+    
+    <div class="example">
+        <h2>Basic Encryption/Decryption Operations</h2>
+        
+        <h3>Round-trip Encryption Test</h3>
+        <p>When I encrypt the text <span concordion:set="#plaintext">"Hello, World!"</span> 
+        with key <span concordion:execute="#key = generate32ByteKey()">generated</span>,
+        then decrypt it back, I should get 
+        <span concordion:assertEquals="#result = roundTripEncryption(#plaintext, #key)">Hello, World!</span></p>
+        
+        <h3>Empty String Handling</h3>
+        <p>When I encrypt an empty string <span concordion:set="#emptyText">""</span> 
+        with key <span concordion:execute="#validKey = generate32ByteKey()">generated</span>,
+        then decrypt it back, I should get 
+        <span concordion:assertEquals="#result = roundTripEncryption(#emptyText, #validKey)"></span></p>
+    </div>
+    
+    <div class="example">
+        <h2>Key Validation</h2>
+        
+        <h3>Valid 32-byte Key</h3>
+        <p>A 32-byte key <span concordion:execute="#valid32Key = generate32ByteKey()">generated</span>
+        should be <span concordion:assertEquals="#result = validateKeyLength(#valid32Key)">VALID</span></p>
+        
+        <h3>Invalid 16-byte Key</h3>
+        <p>A 16-byte key <span concordion:execute="#invalid16Key = generate16ByteKey()">generated</span>
+        should be <span concordion:assertTrue="#result = validateKeyLength(#invalid16Key).startsWith('INVALID')">rejected</span></p>
+    </div>
+    
+    <div class="example">
+        <h2>Input Validation</h2>
+        
+        <h3>Null Input Validation</h3>
+        <table>
+            <tr>
+                <th>Input Type</th>
+                <th>Throws Exception</th>
+            </tr>
+            <tr concordion:execute="#result = validateNullInput(#inputType)">
+                <td concordion:set="#inputType">plaintext</td>
+                <td concordion:assertTrue="#result.startsWith('EXPECTED_EXCEPTION')">✓</td>
+            </tr>
+            <tr concordion:execute="#result = validateNullInput(#inputType)">
+                <td concordion:set="#inputType">key</td>
+                <td concordion:assertTrue="#result.startsWith('EXPECTED_EXCEPTION')">✓</td>
+            </tr>
+            <tr concordion:execute="#result = validateNullInput(#inputType)">
+                <td concordion:set="#inputType">ciphertext</td>
+                <td concordion:assertTrue="#result.startsWith('EXPECTED_EXCEPTION')">✓</td>
+            </tr>
+        </table>
+        
+        <h3>Empty Input Validation</h3>
+        <table>
+            <tr>
+                <th>Input Type</th>
+                <th>Throws Exception</th>
+            </tr>
+            <tr concordion:execute="#result = validateEmptyInput(#inputType)">
+                <td concordion:set="#inputType">key</td>
+                <td concordion:assertTrue="#result.startsWith('EXPECTED_EXCEPTION')">✓</td>
+            </tr>
+            <tr concordion:execute="#result = validateEmptyInput(#inputType)">
+                <td concordion:set="#inputType">ciphertext</td>
+                <td concordion:assertTrue="#result.startsWith('EXPECTED_EXCEPTION')">✓</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="example">
+        <h2>Security Properties</h2>
+        
+        <h3>IV Uniqueness</h3>
+        <p>When encrypting the same plaintext <span concordion:set="#testText">"Repeated encryption test"</span>
+        with the same key <span concordion:execute="#testKey = generate32ByteKey()">generated</span>
+        multiple times (<span concordion:set="#iterations">100</span> iterations),
+        all IVs should be <span concordion:assertTrue="#result = verifyIVUniqueness(#testText, #testKey, #iterations)">unique</span></p>
+        
+        <h3>GCM Authentication</h3>
+        <p>When I tamper with encrypted data for plaintext <span concordion:set="#authText">"Authentication test"</span>
+        using key <span concordion:execute="#authKey = generate32ByteKey()">generated</span>,
+        decryption should <span concordion:assertEquals="#result = verifyGCMAuthentication(#authText, #authKey)">TAMPERED_DATA_REJECTED</span></p>
+    </div>
+    
+    <div class="example">
+        <h2>Binary Data Support</h2>
+        
+        <h3>Unicode Text</h3>
+        <p>When I encrypt Unicode text <span concordion:set="#unicodeText">"¡Hola Mundo! 世界 🌍"</span>
+        with key <span concordion:execute="#unicodeKey = generate32ByteKey()">generated</span>,
+        then decrypt it back, I should get 
+        <span concordion:assertEquals="#result = roundTripEncryption(#unicodeText, #unicodeKey)">¡Hola Mundo! 世界 🌍</span></p>
+    </div>
+
+</body>
+</html>
+

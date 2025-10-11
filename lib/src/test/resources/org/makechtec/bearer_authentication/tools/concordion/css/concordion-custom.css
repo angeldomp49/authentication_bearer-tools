@@ -1,0 +1,207 @@
+/* Concordion Custom CSS for Bearer Authentication Tools Tests */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #2c3e50;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #34495e;
+    background-color: #ecf0f1;
+    padding: 10px;
+    border-left: 4px solid #3498db;
+    margin-top: 30px;
+}
+
+h3 {
+    color: #2980b9;
+    margin-top: 25px;
+}
+
+.example {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tr:hover {
+    background-color: #e8f4f8;
+}
+
+/* Concordion specific styles */
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.failure {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.ignored {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+/* Security-specific styling */
+.security-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.security-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.crypto-component {
+    background-color: #e8f4f8;
+    border-left: 4px solid #17a2b8;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.test-vector {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.validation-result {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.validation-result.valid {
+    background-color: #28a745;
+    color: white;
+}
+
+.validation-result.invalid {
+    background-color: #dc3545;
+    color: white;
+}
+
+.validation-result.error {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+/* Code blocks */
+code {
+    background-color: #f1f3f4;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+pre {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 15px;
+    overflow-x: auto;
+    font-size: 0.9em;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    table {
+        font-size: 0.9em;
+    }
+    
+    th, td {
+        padding: 8px;
+    }
+    
+    .example {
+        padding: 15px;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        background-color: white;
+    }
+    
+    .example {
+        border: 1px solid #333;
+        box-shadow: none;
+    }
+    
+    table {
+        box-shadow: none;
+    }
+}
