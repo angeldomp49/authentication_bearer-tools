@@ -1,5 +1,6 @@
 package org.makechtec.bearer_authentication.tools.concordion;
 
+import org.concordion.api.FullOGNL;
 import org.concordion.integration.junit4.ConcordionRunner;
 import org.junit.runner.RunWith;
 import org.makechtec.bearer_authentication.tools.support.PasswordTestHelper;
@@ -7,6 +8,7 @@ import org.makechtec.bearer_authentication.tools.support.TestDataGenerator;
 
 import java.util.Objects;
 
+@FullOGNL
 @RunWith(ConcordionRunner.class)
 public class Argon2TestFixture {
     

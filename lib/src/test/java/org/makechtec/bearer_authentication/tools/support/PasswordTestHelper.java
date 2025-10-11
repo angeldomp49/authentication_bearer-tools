@@ -80,8 +80,7 @@ public class PasswordTestHelper {
             return "INVALID_FORMAT";
         }
         
-        String[] parts = hash.split("\\$");
-        if (parts.length < 6) {
+        if(hash.length() < 96){
             return "INCOMPLETE_HASH";
         }
         

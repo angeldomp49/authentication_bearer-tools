@@ -31,6 +31,10 @@ public class IntegrationTestFixture {
             return "NULL_INPUT";
         }
         
+        if( username.isEmpty() || password.isEmpty() || secretKey.isEmpty()) {
+            return "EMPTY_INPUT";
+        }
+        
         try {
             String hashedPassword = passwordHelper.hashPassword(password);
             
@@ -238,55 +242,4 @@ public class IntegrationTestFixture {
         }
     }
     
-    public String testCompleteLoginFlowWithFailures(String username, String password, String secretKey, String scenario) {
-        if (Objects.isNull(username) || Objects.isNull(password) || Objects.isNull(secretKey)) {
-            return "NULL_INPUT";
-        }
-        
-        // Agregar escenarios que fallen intencionalmente
-        if ("FORCE_HASH_FAILURE".equals(scenario)) {
-            return "HASH_FAILED";
-        }
-        
-        if ("FORCE_TOKEN_FAILURE".equals(scenario)) {
-            return "TOKEN_FAILED";
-        }
-        
-        try {
-            String hashedPassword = passwordHelper.hashPassword(password);
-            
-            boolean passwordVerified = passwordHelper.verifyPassword(password, hashedPassword);
-            if (!passwordVerified) {
-                return "PASSWORD_VERIFICATION_FAILED";
-            }
-            
-            Calendar expiration = Calendar.getInstance();
-            expiration.add(Calendar.HOUR, 1);
-            
-            long userIdLong;
-            try {
-                userIdLong = Long.parseLong(username);
-            } catch (NumberFormatException e) {
-                userIdLong = username.hashCode();
-            }
-            
-            SessionInformation session = new SessionInformation(
-                expiration,
-                false,
-                userIdLong,
-                List.of("READ", "WRITE")
-            );
-            
-            String token = tokenHandler.createTokenForSession(session, secretKey);
-            
-            boolean tokenValid = tokenHandler.isValidSignature(token, secretKey);
-            if (!tokenValid) {
-                return "TOKEN_VALIDATION_FAILED";
-            }
-            
-            return "SUCCESS";
-        } catch (Exception e) {
-            return "ERROR";
-        }
-    }
 }

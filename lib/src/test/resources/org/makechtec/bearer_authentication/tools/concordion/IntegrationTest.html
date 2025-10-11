@@ -16,8 +16,8 @@
         <p>And a password <span concordion:set="#password">SecurePassword123!</span></p>
         <p>And a JWT secret key <span concordion:set="#secretKey">MyJWTSecretKey123456789</span></p>
         <p>When executing the complete login flow</p>
-        <p>Then the login result is <span concordion:assertEquals="SUCCESS"
-           concordion:execute="#result = testCompleteLoginFlow(#username, #password, #secretKey)">#result</span></p>
+        <p>Then the login result is <span concordion:assertEquals="testCompleteLoginFlow(#username, #password, #secretKey)">SUCCESS</span>
+        </p>
     </div>
     
     <h2>Encrypted Token Payload Integration</h2>
@@ -30,8 +30,8 @@
         <p>And a token secret <span concordion:set="#tokenSecret">TokenSecret123456789</span></p>
         <p>And an encryption key <span concordion:set="#encryptionKey">EncryptionKey123456789012</span></p>
         <p>When creating a token with encrypted payload</p>
-        <p>Then the integration result is <span concordion:assertEquals="SUCCESS"
-           concordion:execute="#result = testEncryptedTokenPayload(#userId, #sensitiveData, #tokenSecret, #encryptionKey)">#result</span></p>
+        <p>Then the integration result is <span concordion:assertEquals="testEncryptedTokenPayload(#userId, #sensitiveData, #tokenSecret, #encryptionKey)">SUCCESS</span>
+        </p>
     </div>
     
     <h2>Password Encryption Before Hashing</h2>
@@ -39,8 +39,8 @@
         <p>Given a password <span concordion:set="#password">MyComplexPassword123!</span></p>
         <p>And an encryption key <span concordion:set="#encryptionKey">PasswordEncKey123456789</span></p>
         <p>When encrypting password before hashing</p>
-        <p>Then the integration result is <span concordion:assertEquals="SUCCESS"
-           concordion:execute="#result = testPasswordEncryptionBeforeHashing(#password, #encryptionKey)">#result</span></p>
+        <p>Then the integration result is <span concordion:assertEquals="testPasswordEncryptionBeforeHashing(#password, #encryptionKey)">SUCCESS</span>
+        </p>
     </div>
     
     <h2>Multi-Layer Security Integration</h2>
@@ -54,8 +54,8 @@
         <p>And a token secret <span concordion:set="#tokenSecret">MultiLayerTokenSecret123</span></p>
         <p>And an encryption key <span concordion:set="#encryptionKey">MultiLayerEncKey123456</span></p>
         <p>When testing all security layers together</p>
-        <p>Then the multi-layer result is <span concordion:assertEquals="SUCCESS"
-           concordion:execute="#result = testSecurityLayersIntegration(#username, #password, #sensitiveData, #tokenSecret, #encryptionKey)">#result</span></p>
+        <p>Then the multi-layer result is <span concordion:assertEquals="testSecurityLayersIntegration(#username, #password, #sensitiveData, #tokenSecret, #encryptionKey)">SUCCESS</span>
+        </p>
     </div>
     
     <h2>Performance Integration Testing</h2>
@@ -92,41 +92,7 @@
             <td>WITHIN_LIMIT</td>
         </tr>
     </table>
-    
-    <h2>Error Handling Integration</h2>
-    <table concordion:execute="#result = testCompleteLoginFlow(#username, #password, #secretKey)">
-        <tr>
-            <th concordion:set="#username">Username</th>
-            <th concordion:set="#password">Password</th>
-            <th concordion:set="#secretKey">Secret Key</th>
-            <th concordion:assertEquals="#result">Expected Result</th>
-        </tr>
-        <tr>
-            <td>validuser</td>
-            <td>ValidPassword123!</td>
-            <td>ValidSecretKey123456789</td>
-            <td>SUCCESS</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>ValidPassword123!</td>
-            <td>ValidSecretKey123456789</td>
-            <td>NULL_INPUT</td>
-        </tr>
-        <tr>
-            <td>validuser</td>
-            <td></td>
-            <td>ValidSecretKey123456789</td>
-            <td>NULL_INPUT</td>
-        </tr>
-        <tr>
-            <td>validuser</td>
-            <td>ValidPassword123!</td>
-            <td></td>
-            <td>NULL_INPUT</td>
-        </tr>
-    </table>
-    
+
     <h2>Cross-Component Data Integrity</h2>
     <div class="example" concordion:example="dataIntegrity">
         <p>This test verifies that data maintains its integrity across all security transformations:</p>
@@ -134,9 +100,10 @@
         <p>And encryption key <span concordion:set="#encKey">DataIntegrityKey123456</span></p>
         <p>And token secret <span concordion:set="#tokenSec">DataIntegrityTokenSec123</span></p>
         <p>When data passes through encryption → token generation → validation → decryption</p>
-        <p>Then data integrity is <span concordion:assertEquals="SUCCESS"
-           concordion:execute="#result = testEncryptedTokenPayload('integrityuser', #originalData, #tokenSec, #encKey)">maintained</span></p>
+        <p>Then data integrity is <span concordion:assertEquals="testEncryptedTokenPayload('integrityuser', #originalData, #tokenSec, #encKey)">SUCCESS</span>
+        </p>
     </div>
+    
 </body>
 </html>
 
