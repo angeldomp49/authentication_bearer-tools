@@ -4,7 +4,7 @@ import org.makechtec.bearer_authentication.tools.bearer.stateless.token.SessionI
 import org.makechtec.bearer_authentication.tools.bearer.stateless.validation.GenericValidator;
 
 public enum DefaultSessionValidators implements GenericValidator<SessionInformation> {
-    
+
     SESSION_EXPIRATION_DATE_IN_FUTURE {
         @Override
         public boolean validate(SessionInformation input) {
@@ -55,12 +55,12 @@ public enum DefaultSessionValidators implements GenericValidator<SessionInformat
         public boolean validate(SessionInformation input) {
             return input.userId() >= 0;
         }
-        
+
         @Override
         public String getErrorMessage() {
             return "The user id is negative";
         }
     };
-            
-    
+
+
 }

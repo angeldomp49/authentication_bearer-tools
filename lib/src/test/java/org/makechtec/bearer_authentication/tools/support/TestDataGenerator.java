@@ -9,14 +9,14 @@ public class TestDataGenerator {
         if (length <= 0) {
             throw new IllegalArgumentException("Length must be positive");
         }
-        
+
         StringBuilder password = new StringBuilder();
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-        
+
         for (int i = 0; i < length; i++) {
             password.append(chars.charAt(i % chars.length()));
         }
-        
+
         return password.toString();
     }
 
@@ -24,15 +24,15 @@ public class TestDataGenerator {
         if (sizeInKb <= 0) {
             throw new IllegalArgumentException("Size must be positive");
         }
-        
+
         StringBuilder text = new StringBuilder();
         String pattern = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
         int targetLength = sizeInKb * 1024;
-        
+
         while (text.length() < targetLength) {
             text.append(pattern);
         }
-        
+
         return text.substring(0, targetLength);
     }
 
@@ -40,7 +40,7 @@ public class TestDataGenerator {
         if (length <= 0) {
             throw new IllegalArgumentException("Key length must be positive");
         }
-        
+
         byte[] key = new byte[length];
         for (int i = 0; i < length; i++) {
             key[i] = (byte) ((i % 256) - 128);
@@ -64,7 +64,7 @@ public class TestDataGenerator {
         if (Objects.isNull(str) || str.isEmpty()) {
             return false;
         }
-        
+
         try {
             java.util.Base64.getDecoder().decode(str);
             return true;

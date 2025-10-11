@@ -5,130 +5,134 @@
     <link href="css/custom-style.css" rel="stylesheet"/>
 </head>
 <body>
-    <h1>Bearer Token (JWT) Specification</h1>
-    
-    <p>This specification tests the JWT Bearer Token generation, validation, and security features 
-       of the Bearer Authentication Tools library.</p>
-    
-    <h2>Basic Token Generation</h2>
-    <div class="example" concordion:example="basicTokenGeneration">
-        <p>Given a user ID <span concordion:set="#userId">user123</span></p>
-        <p>And a secret key <span concordion:set="#secretKey">MyJWTSecretKey123456</span></p>
-        <p>When generating a token for an open session</p>
-        <p>Then the token <span concordion:execute="#token = generateToken(#userId, #secretKey, false)">is created</span></p>
-        <p>And the token format is <span
+<h1>Bearer Token (JWT) Specification</h1>
+
+<p>This specification tests the JWT Bearer Token generation, validation, and security features
+    of the Bearer Authentication Tools library.</p>
+
+<h2>Basic Token Generation</h2>
+<div class="example" concordion:example="basicTokenGeneration">
+    <p>Given a user ID <span concordion:set="#userId">user123</span></p>
+    <p>And a secret key <span concordion:set="#secretKey">MyJWTSecretKey123456</span></p>
+    <p>When generating a token for an open session</p>
+    <p>Then the token <span concordion:execute="#token = generateToken(#userId, #secretKey, false)">is created</span>
+    </p>
+    <p>And the token format is <span
             concordion:execute="#format = validateTokenFormat(#token)">
             </span>
-            <span concordion:assertEquals="#format">VALID_FORMAT</span>
-        </p>
-        <p>And the token is <span concordion:assertTrue="validateToken(#token, #secretKey)">true</span></p>
-    </div>
-    
-    <h2>Token Security Tests</h2>
-    <div class="security-note">
-        <p>Tokens must be unique, properly signed, and resist tampering attempts.</p>
-    </div>
-    <table concordion:execute="#result = testTokenGeneration(#userId, #secretKey, #testCase)">
-        <tr>
-            <th concordion:set="#userId">User ID</th>
-            <th concordion:set="#secretKey">Secret Key</th>
-            <th concordion:set="#testCase">Test Case</th>
-            <th concordion:assertEquals="#result">Expected Result</th>
-        </tr>
-        <tr>
-            <td>user123</td>
-            <td>ValidSecretKey123456</td>
-            <td>VALID_TOKEN</td>
-            <td>VALID</td>
-        </tr>
-        <tr>
-            <td>user123</td>
-            <td>ValidSecretKey123456</td>
-            <td>EXPIRED_TOKEN</td>
-            <td>EXPIRED_BUT_VALID</td>
-        </tr>
-        <tr>
-            <td>user123</td>
-            <td>ValidSecretKey123456</td>
-            <td>INVALID_SECRET</td>
-            <td>SECURE</td>
-        </tr>
-        <tr>
-            <td>user123</td>
-            <td>ValidSecretKey123456</td>
-            <td>MALFORMED_TOKEN</td>
-            <td>VALIDATION_PASSED</td>
-        </tr>
-    </table>
-    
-    <h2>Token Expiration Handling</h2>
-    <div class="example" concordion:example="tokenExpiration">
-        <p>Given a user ID <span concordion:set="#userId">user456</span></p>
-        <p>And a secret key <span concordion:set="#secretKey">MyJWTSecretKey123456</span></p>
-        <p>When generating an expired token</p>
-        <p>Then the expired token <span concordion:execute="#expiredToken = generateExpiredToken(#userId, #secretKey)">is created</span></p>
-        <p>And the token is <span
-           concordion:assertTrue="#isExpired = isTokenExpired(#expiredToken)">expired</span></p>
-        <p>But the signature is still <span
-           concordion:assertTrue="#isValidSig = validateToken(#expiredToken, #secretKey)">valid</span></p>
-    </div>
-    
-    <h2>Custom Claims Support</h2>
-    <div class="example" concordion:example="customClaims">
-        <p>Given a user ID <span concordion:set="#userId">user789</span></p>
-        <p>And a secret key <span concordion:set="#secretKey">MyJWTSecretKey123456</span></p>
-        <p>And a custom claim <span concordion:set="#customClaim">department</span></p>
-        <p>With value <span concordion:set="#customValue">engineering</span></p>
-        <p>When generating a token with custom claims</p>
-        <p>Then the result is <span
-           concordion:assertEquals="#result = testCustomClaims(#userId, #secretKey, #customClaim, #customValue)">SUCCESS</span></p>
-    </div>
-    
-    <h2>Token Uniqueness Validation</h2>
-    <div class="security-note">
-        <p>Each token generated should be unique even for the same user to prevent replay attacks.</p>
-    </div>
-    <div class="example" concordion:example="tokenUniqueness">
-        <p>Given a user ID <span concordion:set="#userId">user999</span></p>
-        <p>And a secret key <span concordion:set="#secretKey">MyJWTSecretKey123456</span></p>
-        <p>When testing token security properties</p>
-        <p>Then the security test result is <span
-           concordion:assertEquals="#securityResult = testTokenSecurity(#userId, #secretKey)">SECURE</span></p>
-    </div>
-    
-    <h2>Invalid Token Format Handling</h2>
-    <table concordion:execute="#result = validateTokenFormat(#token)">
-        <tr>
-            <th concordion:set="#token">Token</th>
-            <th concordion:assertEquals="#result">Expected Result</th>
-        </tr>
-        <tr>
-            <td></td>
-            <td>EMPTY_TOKEN</td>
-        </tr>
-        <tr>
-            <td>invalid.token</td>
-            <td>INVALID_FORMAT</td>
-        </tr>
-        <tr>
-            <td>header.payload</td>
-            <td>INVALID_FORMAT</td>
-        </tr>
-        <tr>
-            <td>invalid@base64.invalid@base64.invalid@base64</td>
-            <td>INVALID_BASE64</td>
-        </tr>
-    </table>
-    
-    <h2>Session State Management</h2>
-    <div class="example" concordion:example="sessionStates">
-        <p>Given a user ID <span concordion:set="#userId">sessionUser</span></p>
-        <p>And a secret key <span concordion:set="#secretKey">MyJWTSecretKey123456</span></p>
-        <p>When generating a token for a closed session</p>
-        <p>Then the closed session token <span concordion:execute="#closedToken = generateToken(#userId, #secretKey, true)">is created</span></p>
-        <p>And the token is still <span
-           concordion:assertTrue="#isValid = validateToken(#closedToken, #secretKey)">valid</span></p>
-    </div>
+        <span concordion:assertEquals="#format">VALID_FORMAT</span>
+    </p>
+    <p>And the token is <span concordion:assertTrue="validateToken(#token, #secretKey)">true</span></p>
+</div>
+
+<h2>Token Security Tests</h2>
+<div class="security-note">
+    <p>Tokens must be unique, properly signed, and resist tampering attempts.</p>
+</div>
+<table concordion:execute="#result = testTokenGeneration(#userId, #secretKey, #testCase)">
+    <tr>
+        <th concordion:set="#userId">User ID</th>
+        <th concordion:set="#secretKey">Secret Key</th>
+        <th concordion:set="#testCase">Test Case</th>
+        <th concordion:assertEquals="#result">Expected Result</th>
+    </tr>
+    <tr>
+        <td>user123</td>
+        <td>ValidSecretKey123456</td>
+        <td>VALID_TOKEN</td>
+        <td>VALID</td>
+    </tr>
+    <tr>
+        <td>user123</td>
+        <td>ValidSecretKey123456</td>
+        <td>EXPIRED_TOKEN</td>
+        <td>EXPIRED_BUT_VALID</td>
+    </tr>
+    <tr>
+        <td>user123</td>
+        <td>ValidSecretKey123456</td>
+        <td>INVALID_SECRET</td>
+        <td>SECURE</td>
+    </tr>
+    <tr>
+        <td>user123</td>
+        <td>ValidSecretKey123456</td>
+        <td>MALFORMED_TOKEN</td>
+        <td>VALIDATION_PASSED</td>
+    </tr>
+</table>
+
+<h2>Token Expiration Handling</h2>
+<div class="example" concordion:example="tokenExpiration">
+    <p>Given a user ID <span concordion:set="#userId">user456</span></p>
+    <p>And a secret key <span concordion:set="#secretKey">MyJWTSecretKey123456</span></p>
+    <p>When generating an expired token</p>
+    <p>Then the expired token <span concordion:execute="#expiredToken = generateExpiredToken(#userId, #secretKey)">is created</span>
+    </p>
+    <p>And the token is <span
+            concordion:assertTrue="#isExpired = isTokenExpired(#expiredToken)">expired</span></p>
+    <p>But the signature is still <span
+            concordion:assertTrue="#isValidSig = validateToken(#expiredToken, #secretKey)">valid</span></p>
+</div>
+
+<h2>Custom Claims Support</h2>
+<div class="example" concordion:example="customClaims">
+    <p>Given a user ID <span concordion:set="#userId">user789</span></p>
+    <p>And a secret key <span concordion:set="#secretKey">MyJWTSecretKey123456</span></p>
+    <p>And a custom claim <span concordion:set="#customClaim">department</span></p>
+    <p>With value <span concordion:set="#customValue">engineering</span></p>
+    <p>When generating a token with custom claims</p>
+    <p>Then the result is <span
+            concordion:assertEquals="#result = testCustomClaims(#userId, #secretKey, #customClaim, #customValue)">SUCCESS</span>
+    </p>
+</div>
+
+<h2>Token Uniqueness Validation</h2>
+<div class="security-note">
+    <p>Each token generated should be unique even for the same user to prevent replay attacks.</p>
+</div>
+<div class="example" concordion:example="tokenUniqueness">
+    <p>Given a user ID <span concordion:set="#userId">user999</span></p>
+    <p>And a secret key <span concordion:set="#secretKey">MyJWTSecretKey123456</span></p>
+    <p>When testing token security properties</p>
+    <p>Then the security test result is <span
+            concordion:assertEquals="#securityResult = testTokenSecurity(#userId, #secretKey)">SECURE</span></p>
+</div>
+
+<h2>Invalid Token Format Handling</h2>
+<table concordion:execute="#result = validateTokenFormat(#token)">
+    <tr>
+        <th concordion:set="#token">Token</th>
+        <th concordion:assertEquals="#result">Expected Result</th>
+    </tr>
+    <tr>
+        <td></td>
+        <td>EMPTY_TOKEN</td>
+    </tr>
+    <tr>
+        <td>invalid.token</td>
+        <td>INVALID_FORMAT</td>
+    </tr>
+    <tr>
+        <td>header.payload</td>
+        <td>INVALID_FORMAT</td>
+    </tr>
+    <tr>
+        <td>invalid@base64.invalid@base64.invalid@base64</td>
+        <td>INVALID_BASE64</td>
+    </tr>
+</table>
+
+<h2>Session State Management</h2>
+<div class="example" concordion:example="sessionStates">
+    <p>Given a user ID <span concordion:set="#userId">sessionUser</span></p>
+    <p>And a secret key <span concordion:set="#secretKey">MyJWTSecretKey123456</span></p>
+    <p>When generating a token for a closed session</p>
+    <p>Then the closed session token <span concordion:execute="#closedToken = generateToken(#userId, #secretKey, true)">is created</span>
+    </p>
+    <p>And the token is still <span
+            concordion:assertTrue="#isValid = validateToken(#closedToken, #secretKey)">valid</span></p>
+</div>
 </body>
 </html>
 

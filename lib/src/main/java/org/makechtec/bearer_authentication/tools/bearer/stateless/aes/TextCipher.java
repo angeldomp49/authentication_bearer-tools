@@ -15,10 +15,10 @@ import java.security.SecureRandom;
 import static org.makechtec.bearer_authentication.tools.bearer.stateless.validators.DefaultBytesValidators.*;
 
 public class TextCipher {
-    
+
     private final GenericValidationApplier<byte[]> validationApplier;
-    
-    public TextCipher(){
+
+    public TextCipher() {
         this.validationApplier = new GenericValidationApplier<>();
     }
 
@@ -27,15 +27,15 @@ public class TextCipher {
     }
 
     public byte[] encrypt(byte[] plaintext, byte[] key) throws InvalidCipherTextException {
-        
-        if(!validationApplier.applyAllValidations(plaintext, BYTES_NOT_NULL, BYTES_NOT_EMPTY)){
-            
+
+        if (!validationApplier.applyAllValidations(plaintext, BYTES_NOT_NULL, BYTES_NOT_EMPTY)) {
+
             var message = "Invalid plain text:" + validationApplier.getInvalidator().getErrorMessage();
-            
+
             throw new IllegalArgumentException(message);
         }
 
-        if(!validationApplier.applyAllValidations(key, BYTES_NOT_NULL, BYTES_NOT_EMPTY, BYTES_MIN_32)){
+        if (!validationApplier.applyAllValidations(key, BYTES_NOT_NULL, BYTES_NOT_EMPTY, BYTES_MIN_32)) {
 
             var message = "Invalid key text:" + validationApplier.getInvalidator().getErrorMessage();
 
@@ -65,14 +65,14 @@ public class TextCipher {
 
     public byte[] decrypt(byte[] ciphertext, byte[] key) throws InvalidCipherTextException {
 
-        if(!validationApplier.applyAllValidations(ciphertext, BYTES_NOT_NULL, BYTES_NOT_EMPTY)){
+        if (!validationApplier.applyAllValidations(ciphertext, BYTES_NOT_NULL, BYTES_NOT_EMPTY)) {
 
             var message = "Invalid plain text:" + validationApplier.getInvalidator().getErrorMessage();
 
             throw new IllegalArgumentException(message);
         }
 
-        if(!validationApplier.applyAllValidations(key, BYTES_NOT_NULL, BYTES_NOT_EMPTY, BYTES_MIN_32)){
+        if (!validationApplier.applyAllValidations(key, BYTES_NOT_NULL, BYTES_NOT_EMPTY, BYTES_MIN_32)) {
 
             var message = "Invalid key text:" + validationApplier.getInvalidator().getErrorMessage();
 

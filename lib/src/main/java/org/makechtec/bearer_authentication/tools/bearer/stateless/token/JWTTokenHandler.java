@@ -13,7 +13,7 @@ import static org.makechtec.bearer_authentication.tools.bearer.stateless.validat
 
 
 public class JWTTokenHandler {
-    
+
     private final GenericValidationApplier<SessionInformation> sessionValidator;
     private final GenericValidationApplier<String> stringGenericValidationApplier;
 
@@ -28,15 +28,15 @@ public class JWTTokenHandler {
     }
 
     public String createTokenForSession(SessionInformation session, String secretKey) {
-        
-        if(!sessionValidator.applyAllValidations(session, SESSION_NOT_NULL, SESSION_IS_NOT_CLOSED, SESSION_POSITIVE_USER_ID, SESSION_EXPIRATION_DATE_IN_FUTURE, SESSION_AT_LEAST_ONE_PERMISSION)){
+
+        if (!sessionValidator.applyAllValidations(session, SESSION_NOT_NULL, SESSION_IS_NOT_CLOSED, SESSION_POSITIVE_USER_ID, SESSION_EXPIRATION_DATE_IN_FUTURE, SESSION_AT_LEAST_ONE_PERMISSION)) {
             throw new IllegalArgumentException("The session is not valid" + sessionValidator.getInvalidator().getErrorMessage());
         }
-        
-        if(!stringGenericValidationApplier.applyAllValidations(secretKey, STRING_NOT_NULL, STRING_NOT_EMPTY, SECRET_KEY_MIN_32_CHARS)){
+
+        if (!stringGenericValidationApplier.applyAllValidations(secretKey, STRING_NOT_NULL, STRING_NOT_EMPTY, SECRET_KEY_MIN_32_CHARS)) {
             throw new IllegalArgumentException("The secret key is not valid" + stringGenericValidationApplier.getInvalidator().getErrorMessage());
         }
-            
+
 
         var signaturePrinter = new SignaturePrinter(secretKey);
         var permissionsSet = ArrayStringLeafBuilder.builder();
@@ -64,11 +64,11 @@ public class JWTTokenHandler {
     }
 
     public boolean isValidSignature(String token, String secretKey) {
-        
-        if(!stringGenericValidationApplier.applyAllValidations(token, STRING_NOT_NULL, STRING_NOT_EMPTY)){
+
+        if (!stringGenericValidationApplier.applyAllValidations(token, STRING_NOT_NULL, STRING_NOT_EMPTY)) {
             throw new IllegalArgumentException("The token is not valid" + stringGenericValidationApplier.getInvalidator().getErrorMessage());
         }
-        if(!stringGenericValidationApplier.applyAllValidations(secretKey, STRING_NOT_NULL, STRING_NOT_EMPTY, SECRET_KEY_MIN_32_CHARS)){
+        if (!stringGenericValidationApplier.applyAllValidations(secretKey, STRING_NOT_NULL, STRING_NOT_EMPTY, SECRET_KEY_MIN_32_CHARS)) {
             throw new IllegalArgumentException("The secret key is not valid" + stringGenericValidationApplier.getInvalidator().getErrorMessage());
         }
 

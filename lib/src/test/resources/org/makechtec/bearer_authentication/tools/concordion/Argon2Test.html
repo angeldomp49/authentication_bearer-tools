@@ -5,126 +5,128 @@
     <link href="css/custom-style.css" rel="stylesheet"/>
 </head>
 <body>
-    <h1>Argon2 Password Hashing Specification</h1>
-    
-    <p>This specification tests the Argon2 password hashing functionality 
-       of the Bearer Authentication Tools library.</p>
-    
-    <h2>Basic Password Hashing</h2>
-    <div class="example" concordion:example="basicHashing">
-        <p>Given a password <span concordion:set="#password">MySecurePassword123!</span></p>
-        <p>When hashing the password</p>
-        <p>Then the hash 
-            <span concordion:execute="#hash = hashPassword(#password)"></span>
-            <span concordion:assertTrue="isDifferentFromPassword(#password, #hash)">should be different from the password</span>
-        </p>
-        <p>And verification with correct password returns <span
-           concordion:assertTrue="verifyPassword(#password, #hash)">true</span></p>
-        <p>And verification with wrong password returns <span
-           concordion:assertFalse="verifyPassword('WrongPassword', #hash)">true</span></p>
-    </div>
-    
-    <h2>Intentional Hash Failure Test (for demonstration)</h2>
-    <div class="example" concordion:example="intentionalHashFailure">
-        <p>This test is designed to fail to demonstrate Concordion report generation:</p>
-        <p>When testing intentional hash failure</p>
-        <p>Then result should be <span
-           concordion:assertFalse="testIntentionalHashFailure() == 'FAIL'">FAIL</span> (but will be EXPECTED_PASS)</p>
-    </div>
+<h1>Argon2 Password Hashing Specification</h1>
 
-    <h2>Security Properties Validation</h2>
-    <div class="security-note">
-        <p>Argon2 must generate unique salts for each hash operation and support various input types securely.</p>
-    </div>
-    <table concordion:execute="#result = testPasswordHashingWithFailure(#password, #testCase)">
-        <tr>
-            <th concordion:set="#password">Password</th>
-            <th concordion:set="#testCase">Test Case</th>
-            <th concordion:assertEquals="#result">Expected Result</th>
-        </tr>
-        <tr>
-            <td>SimplePassword</td>
-            <td>UNIQUE_SALT</td>
-            <td>PASS</td>
-        </tr>
-        <tr>
-            <td>UTF8: パスワード</td>
-            <td>UTF8_SUPPORT</td>
-            <td>PASS</td>
-        </tr>
-        <tr>
-            <td>Special: !@#$%^&amp;&#42;&#40;&#41;</td>
-            <td>SPECIAL_CHARS</td>
-            <td>PASS</td>
-        </tr>
-        <tr>
-            <td>SimplePassword</td>
-            <td>TIMING_RESISTANCE</td>
-            <td>PASS</td>
-        </tr>
-        <tr>
-            <td>ForceFailure</td>
-            <td>FORCE_FAILURE</td>
-            <td>FAIL</td>
-        </tr>
-    </table>
+<p>This specification tests the Argon2 password hashing functionality
+    of the Bearer Authentication Tools library.</p>
 
-    <h2>Long Password Handling</h2>
-    <div class="performance-note">
-        <p>The system should handle long passwords efficiently while maintaining security.</p>
-    </div>
-    <table concordion:execute="#result = testLongPassword(#length)">
-        <tr>
-            <th concordion:set="#length">Password Length</th>
-            <th concordion:assertEquals="#result">Expected Result</th>
-        </tr>
-        <tr>
-            <td>100</td>
-            <td>PASS</td>
-        </tr>
-        <tr>
-            <td>500</td>
-            <td>PASS</td>
-        </tr>
-        <tr>
-            <td>1000</td>
-            <td>PASS</td>
-        </tr>
-    </table>
+<h2>Basic Password Hashing</h2>
+<div class="example" concordion:example="basicHashing">
+    <p>Given a password <span concordion:set="#password">MySecurePassword123!</span></p>
+    <p>When hashing the password</p>
+    <p>Then the hash
+        <span concordion:execute="#hash = hashPassword(#password)"></span>
+        <span concordion:assertTrue="isDifferentFromPassword(#password, #hash)">should be different from the password</span>
+    </p>
+    <p>And verification with correct password returns <span
+            concordion:assertTrue="verifyPassword(#password, #hash)">true</span></p>
+    <p>And verification with wrong password returns <span
+            concordion:assertFalse="verifyPassword('WrongPassword', #hash)">true</span></p>
+</div>
 
-    <h2>Hash Format Validation</h2>
-    <div class="example" concordion:example="hashFormatValidation">
-        <p>Given a password <span concordion:set="#password">TestPassword</span></p>
-        <p>When generating a hash</p>
-        <p>Then the hash format is 
-            <span concordion:execute="#hash = hashPassword(#password)" ></span>
-            <span concordion:echo="#hash" ></span>
-            <span concordion:execute="#format = validateHashFormat(#hash)" ></span>
-            <span concordion:assertEquals="#format">VALID_HASH</span></p>
-    </div>
+<h2>Intentional Hash Failure Test (for demonstration)</h2>
+<div class="example" concordion:example="intentionalHashFailure">
+    <p>This test is designed to fail to demonstrate Concordion report generation:</p>
+    <p>When testing intentional hash failure</p>
+    <p>Then result should be <span
+            concordion:assertFalse="testIntentionalHashFailure() == 'FAIL'">FAIL</span> (but will be EXPECTED_PASS)</p>
+</div>
 
-    <h2>Salt Uniqueness Testing</h2>
-    <div class="example" concordion:example="saltUniqueness">
-        <p>Given a password <span concordion:set="#password">TestPassword</span></p>
-        <p>When generating multiple hashes with <span concordion:set="#iterations">10</span> iterations</p>
-        <p>Then salt randomness result is <span concordion:assertEquals="testSaltRandomness(#password, #iterations)">RANDOM</span></p>
-    </div>
+<h2>Security Properties Validation</h2>
+<div class="security-note">
+    <p>Argon2 must generate unique salts for each hash operation and support various input types securely.</p>
+</div>
+<table concordion:execute="#result = testPasswordHashingWithFailure(#password, #testCase)">
+    <tr>
+        <th concordion:set="#password">Password</th>
+        <th concordion:set="#testCase">Test Case</th>
+        <th concordion:assertEquals="#result">Expected Result</th>
+    </tr>
+    <tr>
+        <td>SimplePassword</td>
+        <td>UNIQUE_SALT</td>
+        <td>PASS</td>
+    </tr>
+    <tr>
+        <td>UTF8: パスワード</td>
+        <td>UTF8_SUPPORT</td>
+        <td>PASS</td>
+    </tr>
+    <tr>
+        <td>Special: !@#$%^&amp;&#42;&#40;&#41;</td>
+        <td>SPECIAL_CHARS</td>
+        <td>PASS</td>
+    </tr>
+    <tr>
+        <td>SimplePassword</td>
+        <td>TIMING_RESISTANCE</td>
+        <td>PASS</td>
+    </tr>
+    <tr>
+        <td>ForceFailure</td>
+        <td>FORCE_FAILURE</td>
+        <td>FAIL</td>
+    </tr>
+</table>
 
-    <h2>Memory Hardness Validation</h2>
-    <div class="security-note">
-        <p>Argon2 should demonstrate memory-hard properties to resist certain types of attacks.</p>
-    </div>
-    <div class="example" concordion:example="memoryHardness">
-        <p>Given a password <span concordion:set="#password">MemoryTestPassword</span></p>
-        <p>When testing memory hardness</p>
-        <p>Then the result is <span concordion:assertEquals="testMemoryHardness(#password)">PASS</span></p>
-    </div>
+<h2>Long Password Handling</h2>
+<div class="performance-note">
+    <p>The system should handle long passwords efficiently while maintaining security.</p>
+</div>
+<table concordion:execute="#result = testLongPassword(#length)">
+    <tr>
+        <th concordion:set="#length">Password Length</th>
+        <th concordion:assertEquals="#result">Expected Result</th>
+    </tr>
+    <tr>
+        <td>100</td>
+        <td>PASS</td>
+    </tr>
+    <tr>
+        <td>500</td>
+        <td>PASS</td>
+    </tr>
+    <tr>
+        <td>1000</td>
+        <td>PASS</td>
+    </tr>
+</table>
 
-    <h2>Performance Testing</h2>
-    <div class="example" concordion:example="performanceTest">
-        <p>Given a password <span concordion:set="#password">PerformanceTestPassword</span></p>
-        <p>When hashing <span concordion:set="#iterations">10</span> times</p>
-        <p>Then the performance result is <span concordion:assertEquals="testPasswordPerformance(#password, #iterations)">WITHIN_LIMIT</span></p>
-    </div>
+<h2>Hash Format Validation</h2>
+<div class="example" concordion:example="hashFormatValidation">
+    <p>Given a password <span concordion:set="#password">TestPassword</span></p>
+    <p>When generating a hash</p>
+    <p>Then the hash format is
+        <span concordion:execute="#hash = hashPassword(#password)"></span>
+        <span concordion:echo="#hash"></span>
+        <span concordion:execute="#format = validateHashFormat(#hash)"></span>
+        <span concordion:assertEquals="#format">VALID_HASH</span></p>
+</div>
+
+<h2>Salt Uniqueness Testing</h2>
+<div class="example" concordion:example="saltUniqueness">
+    <p>Given a password <span concordion:set="#password">TestPassword</span></p>
+    <p>When generating multiple hashes with <span concordion:set="#iterations">10</span> iterations</p>
+    <p>Then salt randomness result is <span
+            concordion:assertEquals="testSaltRandomness(#password, #iterations)">RANDOM</span></p>
+</div>
+
+<h2>Memory Hardness Validation</h2>
+<div class="security-note">
+    <p>Argon2 should demonstrate memory-hard properties to resist certain types of attacks.</p>
+</div>
+<div class="example" concordion:example="memoryHardness">
+    <p>Given a password <span concordion:set="#password">MemoryTestPassword</span></p>
+    <p>When testing memory hardness</p>
+    <p>Then the result is <span concordion:assertEquals="testMemoryHardness(#password)">PASS</span></p>
+</div>
+
+<h2>Performance Testing</h2>
+<div class="example" concordion:example="performanceTest">
+    <p>Given a password <span concordion:set="#password">PerformanceTestPassword</span></p>
+    <p>When hashing <span concordion:set="#iterations">10</span> times</p>
+    <p>Then the performance result is <span concordion:assertEquals="testPasswordPerformance(#password, #iterations)">WITHIN_LIMIT</span>
+    </p>
+</div>
 </body>
 </html>

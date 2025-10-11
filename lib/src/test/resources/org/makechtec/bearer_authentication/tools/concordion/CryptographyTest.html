@@ -5,128 +5,129 @@
     <link href="css/custom-style.css" rel="stylesheet"/>
 </head>
 <body>
-    <h1>AES Text Cipher Specification</h1>
-    
-    <p>This specification tests the AES-GCM encryption and decryption functionality 
-       of the Bearer Authentication Tools library.</p>
-    
-    <h2>Basic Encryption and Decryption</h2>
-    <div class="example" concordion:example="basicEncryption">
-        <p>Given a plain text <span concordion:set="#plainText">Hello World</span></p>
-        <p>And a secret key <span concordion:set="#secretKey">MySecretKey12345</span></p>
-        <p>When encrypting the text</p>
-        <p>Then the encrypted text 
-            <span concordion:execute="#result = encrypt(#plainText, #secretKey)" ></span>
-            <span concordion:assertTrue="isDifferentFromPlaintext(#plainText, #result)">should be different from the original</span></p>
-        <p>And decrypting returns the original text: <span
-           concordion:assertEquals="decrypt(#result, #secretKey)">Hello World</span></p>
-    </div>
-    
-    <h2>Intentional Failure Test (for demonstration)</h2>
-    <div class="example" concordion:example="intentionalFailure">
-        <p>This test is designed to fail to demonstrate Concordion report generation:</p>
-        <p>Given input <span concordion:set="#input">test</span></p>
-        <p>When testing intentional failure</p>
-        <p>Then result should be <span 
-           concordion:assertEquals="testIntentionalFailure(#input)">FAILURE</span> (but will be FAILURE)</p>
-    </div>
-    
-    <h2>Edge Cases and Input Validation</h2>
-    <table concordion:execute="#result = testEncryption(#input, #key)">
-        <tr>
-            <th concordion:set="#input">Input Text</th>
-            <th concordion:set="#key">Encryption Key</th>
-            <th concordion:assertEquals="#result">Expected Result</th>
-        </tr>
-        <tr>
-            <td></td>
-            <td>ValidKey123456789012</td>
-            <td>SUCCESS</td>
-        </tr>
-        <tr>
-            <td>Hello 世界 🌍</td>
-            <td>ValidKey123456789012</td>
-            <td>SUCCESS</td>
-        </tr>
-        <tr>
-            <td>!@#$%^&amp;&#42;&#40;&#41;</td>
-            <td>ValidKey123456789012</td>
-            <td>SUCCESS</td>
-        </tr>
-        <tr>
-            <td>Normal Text</td>
-            <td>short</td>
-            <td>SUCCESS</td>
-        </tr>
-    </table>
-    
-    <h2>Special Character Support</h2>
-    <table concordion:execute="#result = testSpecialCharacters(#testType, 'ValidKey123456789012')">
-        <tr>
-            <th concordion:set="#testType">Test Type</th>
-            <th concordion:assertEquals="#result">Expected Result</th>
-        </tr>
-        <tr>
-            <td>UTF8</td>
-            <td>SUCCESS</td>
-        </tr>
-        <tr>
-            <td>SPECIAL_CHARS</td>
-            <td>SUCCESS</td>
-        </tr>
-        <tr>
-            <td>EMPTY</td>
-            <td>SUCCESS</td>
-        </tr>
-        <tr>
-            <td>NULL</td>
-            <td>NULL_INPUT</td>
-        </tr>
-    </table>
-    
-    <h2>Large Text Handling</h2>
-    <div class="performance-note">
-        <p>The system should efficiently handle texts of various sizes without compromising security.</p>
-    </div>
-    <table concordion:execute="#result = testLargeText(#sizeType, 'ValidKey123456789012')">
-        <tr>
-            <th concordion:set="#sizeType">Text Size</th>
-            <th concordion:assertEquals="#result">Expected Result</th>
-        </tr>
-        <tr>
-            <td>SMALL</td>
-            <td>SUCCESS</td>
-        </tr>
-        <tr>
-            <td>MEDIUM</td>
-            <td>SUCCESS</td>
-        </tr>
-        <tr>
-            <td>LARGE</td>
-            <td>SUCCESS</td>
-        </tr>
-    </table>
-    
-    <h2>Security Properties</h2>
-    <div class="security-note">
-        <p>Each encryption operation should produce different ciphertext even with the same plaintext and key,
-           demonstrating proper IV randomization.</p>
-    </div>
-    <div class="example" concordion:example="securityValidation">
-        <p>Given the same plaintext <span concordion:set="#plaintext">SecretMessage</span></p>
-        <p>And the same key <span concordion:set="#key">MySecretKey12345</span></p>
-        <p>When encrypting multiple times</p>
-        <p>Then the security validation result is <span
-           concordion:assertEquals="#securityResult = validateEncryptionSecurity(#plaintext, #key)">SECURE</span></p>
-    </div>
-    
-    <h2>Performance Testing</h2>
-    <div class="example" concordion:example="performanceTest">
-        <p>Given a text <span concordion:set="#text">Performance test message</span></p>
-        <p>And a key <span concordion:set="#key">ValidKey123456789012</span></p>
-        <p>When encrypting <span concordion:set="#iterations">100</span> times</p>
-        <p>Then the performance result is <span 
-           concordion:assertEquals="#perfResult = testPerformance(#text, #key, #iterations)">WITHIN_LIMIT</span></p>
-    </div>
+<h1>AES Text Cipher Specification</h1>
+
+<p>This specification tests the AES-GCM encryption and decryption functionality
+    of the Bearer Authentication Tools library.</p>
+
+<h2>Basic Encryption and Decryption</h2>
+<div class="example" concordion:example="basicEncryption">
+    <p>Given a plain text <span concordion:set="#plainText">Hello World</span></p>
+    <p>And a secret key <span concordion:set="#secretKey">MySecretKey12345</span></p>
+    <p>When encrypting the text</p>
+    <p>Then the encrypted text
+        <span concordion:execute="#result = encrypt(#plainText, #secretKey)"></span>
+        <span concordion:assertTrue="isDifferentFromPlaintext(#plainText, #result)">should be different from the original</span>
+    </p>
+    <p>And decrypting returns the original text: <span
+            concordion:assertEquals="decrypt(#result, #secretKey)">Hello World</span></p>
+</div>
+
+<h2>Intentional Failure Test (for demonstration)</h2>
+<div class="example" concordion:example="intentionalFailure">
+    <p>This test is designed to fail to demonstrate Concordion report generation:</p>
+    <p>Given input <span concordion:set="#input">test</span></p>
+    <p>When testing intentional failure</p>
+    <p>Then result should be <span
+            concordion:assertEquals="testIntentionalFailure(#input)">FAILURE</span> (but will be FAILURE)</p>
+</div>
+
+<h2>Edge Cases and Input Validation</h2>
+<table concordion:execute="#result = testEncryption(#input, #key)">
+    <tr>
+        <th concordion:set="#input">Input Text</th>
+        <th concordion:set="#key">Encryption Key</th>
+        <th concordion:assertEquals="#result">Expected Result</th>
+    </tr>
+    <tr>
+        <td></td>
+        <td>ValidKey123456789012</td>
+        <td>SUCCESS</td>
+    </tr>
+    <tr>
+        <td>Hello 世界 🌍</td>
+        <td>ValidKey123456789012</td>
+        <td>SUCCESS</td>
+    </tr>
+    <tr>
+        <td>!@#$%^&amp;&#42;&#40;&#41;</td>
+        <td>ValidKey123456789012</td>
+        <td>SUCCESS</td>
+    </tr>
+    <tr>
+        <td>Normal Text</td>
+        <td>short</td>
+        <td>SUCCESS</td>
+    </tr>
+</table>
+
+<h2>Special Character Support</h2>
+<table concordion:execute="#result = testSpecialCharacters(#testType, 'ValidKey123456789012')">
+    <tr>
+        <th concordion:set="#testType">Test Type</th>
+        <th concordion:assertEquals="#result">Expected Result</th>
+    </tr>
+    <tr>
+        <td>UTF8</td>
+        <td>SUCCESS</td>
+    </tr>
+    <tr>
+        <td>SPECIAL_CHARS</td>
+        <td>SUCCESS</td>
+    </tr>
+    <tr>
+        <td>EMPTY</td>
+        <td>SUCCESS</td>
+    </tr>
+    <tr>
+        <td>NULL</td>
+        <td>NULL_INPUT</td>
+    </tr>
+</table>
+
+<h2>Large Text Handling</h2>
+<div class="performance-note">
+    <p>The system should efficiently handle texts of various sizes without compromising security.</p>
+</div>
+<table concordion:execute="#result = testLargeText(#sizeType, 'ValidKey123456789012')">
+    <tr>
+        <th concordion:set="#sizeType">Text Size</th>
+        <th concordion:assertEquals="#result">Expected Result</th>
+    </tr>
+    <tr>
+        <td>SMALL</td>
+        <td>SUCCESS</td>
+    </tr>
+    <tr>
+        <td>MEDIUM</td>
+        <td>SUCCESS</td>
+    </tr>
+    <tr>
+        <td>LARGE</td>
+        <td>SUCCESS</td>
+    </tr>
+</table>
+
+<h2>Security Properties</h2>
+<div class="security-note">
+    <p>Each encryption operation should produce different ciphertext even with the same plaintext and key,
+        demonstrating proper IV randomization.</p>
+</div>
+<div class="example" concordion:example="securityValidation">
+    <p>Given the same plaintext <span concordion:set="#plaintext">SecretMessage</span></p>
+    <p>And the same key <span concordion:set="#key">MySecretKey12345</span></p>
+    <p>When encrypting multiple times</p>
+    <p>Then the security validation result is <span
+            concordion:assertEquals="#securityResult = validateEncryptionSecurity(#plaintext, #key)">SECURE</span></p>
+</div>
+
+<h2>Performance Testing</h2>
+<div class="example" concordion:example="performanceTest">
+    <p>Given a text <span concordion:set="#text">Performance test message</span></p>
+    <p>And a key <span concordion:set="#key">ValidKey123456789012</span></p>
+    <p>When encrypting <span concordion:set="#iterations">100</span> times</p>
+    <p>Then the performance result is <span
+            concordion:assertEquals="#perfResult = testPerformance(#text, #key, #iterations)">WITHIN_LIMIT</span></p>
+</div>
 </body>
 </html>

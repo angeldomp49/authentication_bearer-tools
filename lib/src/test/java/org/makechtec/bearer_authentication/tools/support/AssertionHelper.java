@@ -8,15 +8,15 @@ public class AssertionHelper {
         if (Objects.isNull(original) || Objects.isNull(encrypted) || Objects.isNull(decrypted)) {
             return "NULL_INPUT";
         }
-        
+
         if (original.equals(encrypted)) {
             return "NOT_ENCRYPTED";
         }
-        
+
         if (!original.equals(decrypted)) {
             return "DECRYPTION_FAILED";
         }
-        
+
         return "SUCCESS";
     }
 
@@ -24,15 +24,15 @@ public class AssertionHelper {
         if (Objects.isNull(password) || Objects.isNull(hash1) || Objects.isNull(hash2)) {
             return "NULL_INPUT";
         }
-        
+
         if (hash1.equals(hash2)) {
             return "SALT_NOT_UNIQUE";
         }
-        
+
         if (!verification) {
             return "VERIFICATION_FAILED";
         }
-        
+
         return "SUCCESS";
     }
 
@@ -40,24 +40,24 @@ public class AssertionHelper {
         if (Objects.isNull(token)) {
             return "NULL_TOKEN";
         }
-        
+
         if (token.isEmpty()) {
             return "EMPTY_TOKEN";
         }
-        
+
         String[] parts = token.split("\\.");
         if (parts.length != 3) {
             return "INVALID_JWT_FORMAT";
         }
-        
+
         if (hasExpired && isValid) {
             return "EXPIRED_BUT_VALID";
         }
-        
+
         if (!hasExpired && !isValid) {
             return "NOT_EXPIRED_BUT_INVALID";
         }
-        
+
         return isValid ? "VALID" : "INVALID";
     }
 
@@ -65,7 +65,7 @@ public class AssertionHelper {
         if (executionTime < 0) {
             return "INVALID_TIME";
         }
-        
+
         return executionTime <= maxAllowedTime ? "WITHIN_LIMIT" : "EXCEEDED_LIMIT";
     }
 
@@ -86,11 +86,11 @@ public class AssertionHelper {
         if (Objects.isNull(timings) || timings.length < 2) {
             return "INSUFFICIENT_DATA";
         }
-        
+
         double mean = calculateMean(timings);
         double variance = calculateVariance(timings, mean);
         double coefficient = Math.sqrt(variance) / mean;
-        
+
         return coefficient < 0.1 ? "CONSISTENT" : "INCONSISTENT";
     }
 
@@ -98,20 +98,20 @@ public class AssertionHelper {
         if (Objects.isNull(data) || data.length < 16) {
             return "INSUFFICIENT_DATA";
         }
-        
+
         int[] frequency = new int[256];
         for (byte b : data) {
             frequency[b & 0xFF]++;
         }
-        
+
         double expectedFreq = (double) data.length / 256;
         double chiSquare = 0;
-        
+
         for (int freq : frequency) {
             double diff = freq - expectedFreq;
             chiSquare += (diff * diff) / expectedFreq;
         }
-        
+
         return chiSquare < 293.25 ? "RANDOM" : "NOT_RANDOM";
     }
 
@@ -119,16 +119,16 @@ public class AssertionHelper {
         if (Objects.isNull(value)) {
             return "NO_LEAK";
         }
-        
+
         String lowerValue = value.toLowerCase();
         String[] sensitivePatterns = {"password", "secret", "key", "token", "hash"};
-        
+
         for (String pattern : sensitivePatterns) {
             if (lowerValue.contains(pattern)) {
                 return "INFORMATION_LEAK";
             }
         }
-        
+
         return "NO_LEAK";
     }
 

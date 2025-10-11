@@ -3,7 +3,7 @@ package org.makechtec.bearer_authentication.tools.bearer.stateless.validators;
 import org.makechtec.bearer_authentication.tools.bearer.stateless.validation.GenericValidator;
 
 public enum DefaultStringValidators implements GenericValidator<String> {
-    
+
     STRING_NOT_EMPTY {
         @Override
         public boolean validate(String input) {
@@ -26,5 +26,5 @@ public enum DefaultStringValidators implements GenericValidator<String> {
             return "The string is null";
         }
     };
-    
+
 }

@@ -1,4 +1,3 @@
-
 # First Matrix Test #
 
 Based on the following information please create a detailed specification which will serve
@@ -26,7 +25,6 @@ Last Sync: %%timestamp%%
 
 Your task is to create robust integration tests, preferred by using Concordion to create html files and
 embed executable logic in them, you have to take the role as a QA tester specialized in cryptography.
-
 
 ## Context ##
 

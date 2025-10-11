@@ -1,7 +1,7 @@
 package org.makechtec.bearer_authentication.tools.support;
 
-import org.makechtec.bearer_authentication.tools.bearer.stateless.aes.TextCipher;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.makechtec.bearer_authentication.tools.bearer.stateless.aes.TextCipher;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -49,7 +49,7 @@ public class CryptoTestHelper {
         try {
             String encrypted = encryptText(plainText, keyString);
             String decrypted = decryptText(encrypted, keyString);
-            
+
             if (plainText.equals(decrypted)) {
                 return "SUCCESS";
             } else {
@@ -64,25 +64,25 @@ public class CryptoTestHelper {
         if (Objects.isNull(keyString)) {
             return "NULL_KEY";
         }
-        
+
         if (keyString.isEmpty()) {
             return "EMPTY_KEY";
         }
-        
+
         if (keyString.length() < 16) {
             return "KEY_TOO_SHORT";
         }
-        
+
         return "VALID_KEY";
     }
 
     public long measureEncryptionTime(String plainText, String keyString, int iterations) {
         long startTime = System.nanoTime();
-        
+
         for (int i = 0; i < iterations; i++) {
             encryptText(plainText, keyString);
         }
-        
+
         long endTime = System.nanoTime();
         return (endTime - startTime) / 1_000_000;
     }
@@ -91,10 +91,10 @@ public class CryptoTestHelper {
         if (Objects.isNull(plainText) || Objects.isNull(encrypted)) {
             return false;
         }
-        
+
         try {
             String plainTextBase64 = Base64.getEncoder().encodeToString(
-                plainText.getBytes(StandardCharsets.UTF_8)
+                    plainText.getBytes(StandardCharsets.UTF_8)
             );
             return !plainTextBase64.equals(encrypted);
         } catch (Exception e) {
@@ -105,15 +105,15 @@ public class CryptoTestHelper {
     private byte[] generateKeyFromString(String keyString) {
         byte[] keyBytes = keyString.getBytes(StandardCharsets.UTF_8);
         byte[] key = new byte[32];
-        
+
         System.arraycopy(keyBytes, 0, key, 0, Math.min(keyBytes.length, key.length));
-        
+
         if (keyBytes.length < key.length) {
             for (int i = keyBytes.length; i < key.length; i++) {
                 key[i] = (byte) (i % 256);
             }
         }
-        
+
         return key;
     }
 }

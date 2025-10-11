@@ -3,7 +3,7 @@ package org.makechtec.bearer_authentication.tools.bearer.stateless.validators;
 import org.makechtec.bearer_authentication.tools.bearer.stateless.validation.GenericValidator;
 
 public enum DefaultBytesValidators implements GenericValidator<byte[]> {
-    
+
     BYTES_NOT_EMPTY {
         @Override
         public boolean validate(byte[] input) {
@@ -37,5 +37,5 @@ public enum DefaultBytesValidators implements GenericValidator<byte[]> {
             return "The byte array is null";
         }
     };
-    
+
 }

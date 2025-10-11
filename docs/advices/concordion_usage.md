@@ -9,7 +9,7 @@ To produce this issue, you can add the following code in a html file:
 <p c:echo="#myValue"></p>
 ```
 
-The expected behavior is that the value returned by the method `myMethodThatReturnsAvalue()` 
+The expected behavior is that the value returned by the method `myMethodThatReturnsAvalue()`
 is assigned to the variable `myValue` and then echoed in the second paragraph. However the right
 syntax to use is:
 
@@ -37,7 +37,6 @@ The right way to do it is:
 <p>And the token is <span
            concordion:assertTrue="#isExpired = isTokenExpired(#expiredToken)">expired</span></p>
 ```
-
 
 Other statements that are not working are:
 
