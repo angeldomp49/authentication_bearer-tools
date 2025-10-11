@@ -12,8 +12,6 @@ plugins {
     jacoco
 }
 
-version = "1.4.3"
-
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -83,6 +81,8 @@ tasks.jacocoTestReport {
 jacoco {
     toolVersion = "0.8.11"
 }
+
+version = "1.5.0"
 
 publishing {
 

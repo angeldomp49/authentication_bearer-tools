@@ -2,6 +2,7 @@ package org.makechtec.bearer_authentication.tools.concordion;
 
 import org.concordion.api.FullOGNL;
 import org.concordion.integration.junit4.ConcordionRunner;
+import org.json.JSONObject;
 import org.junit.runner.RunWith;
 import org.makechtec.bearer_authentication.tools.bearer.stateless.token.JWTTokenGenerator;
 import org.makechtec.bearer_authentication.tools.bearer.stateless.token.JWTTokenHandler;
@@ -43,7 +44,8 @@ public class BearerTokenTestFixture {
                 expiration,
                 isClosed,
                 userIdLong,
-                List.of("READ", "WRITE")
+                List.of("READ", "WRITE"),
+                new JSONObject()
         );
 
         return tokenHandler.createTokenForSession(session, secretKey);
@@ -68,7 +70,8 @@ public class BearerTokenTestFixture {
                 expiration,
                 false,
                 userIdLong,
-                List.of("READ")
+                List.of("READ"),
+                new JSONObject()
         );
 
         return tokenHandler.createTokenForSession(session, secretKey);
