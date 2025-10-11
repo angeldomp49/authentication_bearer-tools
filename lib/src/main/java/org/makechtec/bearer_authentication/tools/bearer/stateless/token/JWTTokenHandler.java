@@ -56,12 +56,15 @@ public class JWTTokenHandler {
                                 .put("uid", session.userId())
                                 .put("isClosed", session.isClosed())
                                 .put("permissions", permissionsSet.build())
+                                .put("claims", session.claims().toString())
                                 .put("jti", UUID.randomUUID().toString())
                                 .build()
                 )
                 .sign()
                 .build();
     }
+    
+    
 
     public boolean isValidSignature(String token, String secretKey) {
 

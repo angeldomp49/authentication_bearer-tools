@@ -10,6 +10,7 @@ import static org.makechtec.bearer_authentication.tools.bearer.stateless.validat
 import static org.makechtec.bearer_authentication.tools.bearer.stateless.validators.DefaultSecretKeyValidators.SECRET_KEY_MIN_32_CHARS;
 import static org.makechtec.bearer_authentication.tools.bearer.stateless.validators.DefaultStringValidators.STRING_NOT_EMPTY;
 import static org.makechtec.bearer_authentication.tools.bearer.stateless.validators.DefaultStringValidators.STRING_NOT_NULL;
+import static org.makechtec.bearer_authentication.tools.bearer.stateless.validators.DefaultJWTTokenValidators.TOKEN_WELL_FORMED;
 
 public class JWTTokenGenerator {
 
@@ -52,7 +53,7 @@ public class JWTTokenGenerator {
             throw new IllegalArgumentException("Invalid secret key: " + stringGenericValidationApplier.getInvalidator().getErrorMessage());
         }
 
-        if (!stringGenericValidationApplier.applyAllValidations(token, STRING_NOT_NULL, STRING_NOT_EMPTY)) {
+        if (!stringGenericValidationApplier.applyAllValidations(token, STRING_NOT_NULL, STRING_NOT_EMPTY, TOKEN_WELL_FORMED)) {
             throw new IllegalArgumentException("Invalid token: " + stringGenericValidationApplier.getInvalidator().getErrorMessage());
         }
 
@@ -69,7 +70,7 @@ public class JWTTokenGenerator {
 
     public JSONObject getJWTPayload(String token) {
 
-        if (!stringGenericValidationApplier.applyAllValidations(token, STRING_NOT_NULL, STRING_NOT_EMPTY)) {
+        if (!stringGenericValidationApplier.applyAllValidations(token, STRING_NOT_NULL, STRING_NOT_EMPTY, TOKEN_WELL_FORMED)) {
             throw new IllegalArgumentException("Invalid token: " + stringGenericValidationApplier.getInvalidator().getErrorMessage());
         }
 
@@ -80,7 +81,7 @@ public class JWTTokenGenerator {
 
     public JSONObject getJWTHeader(String token) {
 
-        if (!stringGenericValidationApplier.applyAllValidations(token, STRING_NOT_NULL, STRING_NOT_EMPTY)) {
+        if (!stringGenericValidationApplier.applyAllValidations(token, STRING_NOT_NULL, STRING_NOT_EMPTY, TOKEN_WELL_FORMED)) {
             throw new IllegalArgumentException("Invalid token: " + stringGenericValidationApplier.getInvalidator().getErrorMessage());
         }
 

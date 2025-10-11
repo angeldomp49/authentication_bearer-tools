@@ -60,6 +60,17 @@ public enum DefaultSessionValidators implements GenericValidator<SessionInformat
         public String getErrorMessage() {
             return "The user id is negative";
         }
+    },
+    SESSION_NOT_EMPTY_CLAIMS {
+        @Override
+        public boolean validate(SessionInformation input) {
+            return input.claims() != null && !input.claims().isEmpty();
+        }
+
+        @Override
+        public String getErrorMessage() {
+            return "The session has no claims";
+        }
     };
 
 
