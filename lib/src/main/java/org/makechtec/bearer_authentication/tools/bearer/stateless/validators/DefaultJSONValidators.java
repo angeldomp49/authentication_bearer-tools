@@ -11,7 +11,7 @@ public enum DefaultJSONValidators implements GenericValidator<String> {
 
             var jsonInput = new JSONObject(input);
 
-            return jsonInput.isEmpty();
+            return !jsonInput.isEmpty();
         }
 
         @Override
