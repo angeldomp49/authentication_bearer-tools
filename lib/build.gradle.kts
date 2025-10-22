@@ -82,7 +82,7 @@ jacoco {
     toolVersion = "0.8.11"
 }
 
-version = "1.5.0"
+version = "1.5.1"
 
 publishing {
 
